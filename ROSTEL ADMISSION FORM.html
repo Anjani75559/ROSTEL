@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+<title>Hostel Admission Form</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0b0d12;--sur:#13161f;--sur2:#1a1e2a;--bor:#272b3d;--acc:#f5a623;--txt:#e6e9f4;--mut:#5a6079;--suc:#22c55e;--dan:#f05252;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--txt);font-family:var(--fb);min-height:100vh;padding:20px;font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+a{color:inherit;text-decoration:none;}
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+.wrap{max-width:600px;margin:0 auto;}
+.logo{text-align:center;padding:24px 0 20px;font-family:var(--fh);font-size:26px;font-weight:800;}
+.logo span{color:var(--acc);}
+.logo small{display:block;font-size:12px;color:var(--mut);font-weight:400;margin-top:3px;}
+.card{background:var(--sur);border:1px solid var(--bor);border-radius:14px;padding:24px;margin-bottom:16px;}
+.section-title{font-family:var(--fh);font-size:14px;font-weight:700;color:var(--acc);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--bor);}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+label{font-size:10px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;}
+input,select,textarea{background:var(--sur2);border:1px solid var(--bor);border-radius:8px;color:var(--txt);font-family:var(--fb);font-size:13px;padding:10px 12px;outline:none;transition:border-color .15s;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:var(--acc);}
+select option{background:var(--sur2);}
+textarea{resize:vertical;min-height:70px;}
+.req{color:var(--dan);}
+.photo-box{background:var(--sur2);border:2px dashed var(--bor);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s;position:relative;}
+.photo-box:hover{border-color:var(--acc);}
+.photo-box input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.photo-box img{max-width:100%;max-height:150px;border-radius:8px;margin-top:8px;}
+.photo-icon{font-size:32px;margin-bottom:6px;}
+.photo-label{font-size:12px;color:var(--mut);}
+.sig-canvas{background:white;border-radius:8px;cursor:crosshair;touch-action:none;width:100%;height:150px;}
+.sig-btns{display:flex;gap:8px;margin-top:8px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:8px 16px;border-radius:8px;border:none;font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;}
+.bp{background:var(--acc);color:#000;width:100%;padding:14px;font-size:15px;font-family:'Syne',sans-serif;font-weight:700;border-radius:10px;margin-top:8px;}
+.bp:hover{background:#e09010;}
+.bg2{background:var(--sur2);color:var(--txt);border:1px solid var(--bor);}
+.bd{background:rgba(240,82,82,.12);color:var(--dan);border:1px solid rgba(240,82,82,.2);}
+.alert{border-radius:9px;padding:12px 14px;font-size:13px;margin-bottom:14px;display:none;}
+.alert.err{background:rgba(240,82,82,.1);border:1px solid rgba(240,82,82,.3);color:var(--dan);}
+.alert.suc{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:var(--suc);}
+.success-screen{display:none;text-align:center;padding:40px 20px;}
+.success-screen .icon{font-size:64px;margin-bottom:16px;}
+.success-screen h2{font-family:var(--fh);font-size:22px;font-weight:800;margin-bottom:8px;}
+.success-screen p{color:var(--mut);font-size:13px;line-height:1.6;margin-bottom:16px;}
+.cred-box{background:var(--sur2);border:1px solid var(--bor);border-radius:10px;padding:16px;margin:16px 0;text-align:left;}
+.cred-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bor);font-size:13px;}
+.cred-row:last-child{border-bottom:none;}
+.cred-label{color:var(--mut);}
+.cred-val{font-weight:700;color:var(--acc);}
+.step-indicator{display:flex;gap:6px;margin-bottom:20px;justify-content:center;}
+.step{width:8px;height:8px;border-radius:50%;background:var(--bor);}
+.step.active{background:var(--acc);width:24px;border-radius:4px;}
+.step.done{background:var(--suc);}
+@media (max-width: 600px){
+  .fr{grid-template-columns:1fr !important;}
+  .wrap{padding:12px;}
+  .card{padding:18px;}
+  body{font-size:16px;}
+  input,select,textarea{font-size:16px !important;padding:13px 14px !important;}
+  label{font-size:13px !important;letter-spacing:0 !important;}
+  .logo{font-size:22px !important;}
+  .section-title{font-size:15px !important;}
+  .btn{font-size:15px !important;padding:13px !important;}
+  .bp{font-size:16px !important;padding:16px !important;}
+  .photo-label{font-size:14px !important;}
+  .photo-icon{font-size:36px !important;}
+  .step{width:10px;height:10px;}
+  .step.active{width:28px;}
+  .login-hint{font-size:13px !important;}
+  .req{font-size:14px;}
+  .alert{font-size:14px !important;}
+  .cred-row{font-size:14px !important;}
+  .success-screen h2{font-size:24px !important;}
+  .success-screen p{font-size:14px !important;}
+}
+
+.room-btn{display:inline-block;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid var(--bor);background:var(--sur2);color:var(--txt);transition:all .15s;min-width:52px;text-align:center;}
+.room-btn:hover{border-color:var(--acc);color:var(--acc);}
+.room-btn.selected{background:var(--acc);color:#000;border-color:var(--acc);}
+.room-btn.occupied{background:rgba(240,82,82,.08);border-color:rgba(240,82,82,.3);color:var(--dan);cursor:not-allowed;opacity:.6;}
+.floor-label{font-size:10px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px;display:block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">ROSTEL<small>Online Admission Form</small></div>
+
+  <div class="alert err" id="alert-err"></div>
+  <div class="alert suc" id="alert-suc"></div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="success-screen">
+    <div class="icon">🎉</div>
+    <h2>Admission Successful!</h2>
+    <p>Your admission form has been submitted and your account has been created. Use the details below to login to the Hostel Student Portal.</p>
+    <div class="cred-box">
+      <div class="cred-row"><span class="cred-label">Your Room Number</span><span class="cred-val" id="cred-room">-</span></div>
+      <div class="cred-row"><span class="cred-label">Your Phone</span><span class="cred-val" id="cred-phone">-</span></div>
+      <div class="cred-row"><span class="cred-label">Login With</span><span class="cred-val">Room Number + Phone</span></div>
+    </div>
+    <p style="font-size:12px;color:var(--mut)">Screenshot these details and save them. Share the Rostel link with your hostel owner to get access.</p>
+  </div>
+
+  <!-- FORM -->
+  <div id="form-wrap">
+    <div class="step-indicator">
+      <div class="step active" id="st0"></div>
+      <div class="step" id="st1"></div>
+      <div class="step" id="st2"></div>
+      <div class="step" id="st3"></div>
+    </div>
+
+    <!-- SECTION 1: Personal Info -->
+    <div class="card" id="sec-0">
+      <div class="section-title">👤 Personal Information</div>
+      <div class="fr">
+        <div class="fg"><label>Full Name <span class="req">*</span></label><input id="f-name" placeholder="Enter your full name"/></div>
+        <div class="fg"><label>Phone Number <span class="req">*</span></label><input id="f-phone" type="tel" placeholder="10 digit mobile"/></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Father's Name <span class="req">*</span></label><input id="f-father" placeholder="Father's full name"/></div>
+        <div class="fg"><label>Parent / Guardian Phone <span class="req">*</span></label><input id="f-emrg" type="tel" placeholder="Emergency contact"/></div>
+      </div>
+      <div class="fg"><label>Home Address <span class="req">*</span></label><textarea id="f-addr" placeholder="Full home address with city, state, pincode..."></textarea></div>
+      <div class="fg"><label>Coaching / College / Class Studying At <span class="req">*</span></label><input id="f-study" placeholder="e.g. Allen Indore, DAVV, Class 12 CBSE"/></div>
+      <button class="btn bp" onclick="nextSec(0)">Next →</button>
+    </div>
+
+    <!-- SECTION 2: Room & Stay -->
+    <div class="card" id="sec-1" style="display:none">
+      <div class="section-title">🏠 Room & Stay Details</div>
+      <div class="fg">
+        <label>Select Hostel <span class="req">*</span></label>
+        <select id="f-hostel" onchange="showRooms(this.value)">
+          <option value="">-- Select Hostel --</option>
+          <option value="H1">H1 (House No.26)</option>
+          <option value="H2">H2 (House No.27)</option>
+          <option value="H3">H3 (House No.17/5)</option>
+          <option value="H4">H4 (House No.139/1)</option>
+        </select>
+      </div>
+      <div class="fg" id="room-picker-wrap" style="display:none">
+        <label>Select Room Number <span class="req">*</span></label>
+        <input id="f-room" placeholder="Click a room below" readonly style="margin-bottom:10px;cursor:pointer;background:var(--sur2)" onclick="document.getElementById('room-grid').style.display='block'"/>
+        <div id="room-grid" style="display:block"></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Move-in Date <span class="req">*</span></label><input id="f-movein" type="date"/></div>
+
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Number of Months to Stay <span class="req">*</span></label><input id="f-months" type="number" min="1" max="24" placeholder="e.g. 6"/></div>
+        <div class="fg">
+          <label>Monthly Rent (Rs) <span class="req">*</span></label>
+          <select id="f-rent">
+            <option value="">-- Select Amount --</option>
+            <option value="6000">Rs. 6,000</option>
+            <option value="9000">Rs. 9,000</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label>Room Type</label>
+        <select id="f-rtype">
+          <option>Single</option>
+          <option>Double Sharing</option>
+          <option>Triple Sharing</option>
+        </select>
+      </div>
+
+      <!-- CAUTION MONEY -->
+      <div style="background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.2);border-radius:10px;padding:14px;margin-top:6px">
+        <div style="font-size:11px;font-weight:700;color:#f5a623;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px">Caution / Security Money</div>
+        <div class="fr">
+          <div class="fg">
+          <label>Caution Money (Rs) <span class="req">*</span></label>
+          <input id="f-caution" type="number" placeholder="Enter amount as told by owner e.g. 2000, 4000..."/>
+        </div>
+          <div class="fg"><label>Payment Mode</label>
+            <select id="f-paymode">
+              <option value="cash">Cash</option>
+              <option value="online">Online Transfer</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn bg2" onclick="prevSec(1)" style="flex:1">← Back</button>
+        <button class="btn bp" onclick="nextSec(1)" style="flex:2">Next →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 3: ID Proof -->
+    <div class="card" id="sec-2" style="display:none">
+      <div class="section-title">🪪 ID Proof & Photo</div>
+      <div class="fr">
+        <div class="fg"><label>ID Proof Type <span class="req">*</span></label>
+          <select id="f-idtype">
+            <option>Aadhaar Card</option>
+            <option>PAN Card</option>
+            <option>Voter ID</option>
+            <option>Driving License</option>
+            <option>Passport</option>
+          </select>
+        </div>
+        <div class="fg"><label>ID Number <span class="req">*</span></label><input id="f-idnum" placeholder="Enter ID number"/></div>
+      </div>
+      <!-- ID SCANNER - FRONT & BACK -->
+      <div class="fg" style="margin-top:6px">
+        <label>ID Proof Scan — Front Side <span class="req">*</span></label>
+        <div style="background:var(--sur2);border:1px solid var(--bor);border-radius:10px;padding:12px;margin-bottom:4px">
+          <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+            <button type="button" class="btn" style="background:rgba(79,142,247,.15);color:#4f8ef7;border:1px solid rgba(79,142,247,.3);padding:8px 14px;font-size:13px;flex:1" onclick="startIDCamera('front')">📷 Camera</button>
+            <button type="button" class="btn" style="background:var(--sur);color:var(--txt);border:1px solid var(--bor);padding:8px 14px;font-size:13px;flex:1" onclick="document.getElementById('id-front-file').click()">📁 Upload</button>
+            <input type="file" id="id-front-file" accept="image/*" capture="environment" style="display:none" onchange="loadIDFile(this,'front')"/>
+          </div>
+          <video id="id-video-front" style="display:none;width:100%;border-radius:8px;background:#000;max-height:180px" autoplay playsinline></video>
+          <canvas id="id-canvas-front" style="display:none"></canvas>
+          <div id="id-cam-ctrl-front" style="display:none;margin:6px 0">
+            <button type="button" class="btn bp" onclick="captureID('front')" style="width:100%">📸 Capture Front</button>
+          </div>
+          <div id="id-front-preview-wrap" style="display:none;margin-top:6px">
+            <img id="id-front-preview" style="width:100%;border-radius:8px;border:2px solid var(--suc);max-height:160px;object-fit:cover"/>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+              <span style="font-size:11px;color:var(--suc);font-weight:600">✅ Front side saved</span>
+              <button type="button" class="btn bd" style="padding:4px 10px;font-size:11px" onclick="clearIDScan('front')">Retake</button>
+            </div>
+          </div>
+          <div id="id-front-status" style="font-size:12px;color:var(--mut);margin-top:4px">Not scanned yet</div>
+        </div>
+      </div>
+
+      <div class="fg" style="margin-top:2px">
+        <label>ID Proof Scan — Back Side <span class="req">*</span></label>
+        <div style="background:var(--sur2);border:1px solid var(--bor);border-radius:10px;padding:12px;margin-bottom:4px">
+          <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+            <button type="button" class="btn" style="background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.3);padding:8px 14px;font-size:13px;flex:1" onclick="startIDCamera('back')">📷 Camera</button>
+            <button type="button" class="btn" style="background:var(--sur);color:var(--txt);border:1px solid var(--bor);padding:8px 14px;font-size:13px;flex:1" onclick="document.getElementById('id-back-file').click()">📁 Upload</button>
+            <input type="file" id="id-back-file" accept="image/*" capture="environment" style="display:none" onchange="loadIDFile(this,'back')"/>
+          </div>
+          <video id="id-video-back" style="display:none;width:100%;border-radius:8px;background:#000;max-height:180px" autoplay playsinline></video>
+          <canvas id="id-canvas-back" style="display:none"></canvas>
+          <div id="id-cam-ctrl-back" style="display:none;margin:6px 0">
+            <button type="button" class="btn bp" onclick="captureID('back')" style="width:100%">📸 Capture Back</button>
+          </div>
+          <div id="id-back-preview-wrap" style="display:none;margin-top:6px">
+            <img id="id-back-preview" style="width:100%;border-radius:8px;border:2px solid #a78bfa;max-height:160px;object-fit:cover"/>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+              <span style="font-size:11px;color:#a78bfa;font-weight:600">✅ Back side saved</span>
+              <button type="button" class="btn bd" style="padding:4px 10px;font-size:11px" onclick="clearIDScan('back')">Retake</button>
+            </div>
+          </div>
+          <div id="id-back-status" style="font-size:12px;color:var(--mut);margin-top:4px">Not scanned yet</div>
+        </div>
+      </div>
+
+      <div class="fg" style="margin-top:4px">
+        <label>Upload Your Photo <span class="req">*</span></label>
+        <div class="photo-box" id="photo-box">
+          <input type="file" accept="image/*" id="f-photo" onchange="previewPhoto(this)"/>
+          <div class="photo-icon">📷</div>
+          <div class="photo-label">Tap to upload your passport size photo</div>
+          <img id="photo-preview" style="display:none"/>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn bg2" onclick="prevSec(2)" style="flex:1">← Back</button>
+        <button class="btn bp" onclick="nextSec(2)" style="flex:2">Next →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 4: Signature & Submit -->
+    <div class="card" id="sec-3" style="display:none">
+      <div class="section-title">✍️ Signature & Agreement</div>
+      <div class="fg">
+        <label>Your Signature <span class="req">*</span> (Sign with mouse or finger)</label>
+        <canvas class="sig-canvas" id="sig-canvas" width="550" height="150"></canvas>
+        <div class="sig-btns">
+          <button class="btn bd bsm" onclick="clearSig()">Clear Signature</button>
+          <span style="font-size:11px;color:var(--mut);margin-left:auto;align-self:center">Sign inside the white box above</span>
+        </div>
+      </div>
+      <div style="background:var(--sur2);border-radius:9px;padding:14px;margin:12px 0;font-size:12px;color:var(--mut);line-height:1.7">
+        <strong style="color:var(--txt)">Agreement:</strong> I confirm that all information provided is correct. I agree to follow all hostel rules and regulations. I understand that rent must be paid by the due date each month. I give permission for my photo and ID to be stored securely.
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn bg2" onclick="prevSec(3)" style="flex:1">← Back</button>
+        <button class="btn bp" onclick="submitForm()" style="flex:2" id="submit-btn">Submit Admission Form ✅</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== SUPABASE SETUP =====
+const SUPABASE_URL = 'https://zbpyarqremtajhiioksv.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpicHlhcnFyZW10YWpoaWlva3N2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjEwMzYsImV4cCI6MjA4OTA5NzAzNn0.XJObkoo-tsAiUhTWm6pBaCFPKCsd6Msy7zWH-b0zFBY';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ===== STEPS =====
+var currentSec = 0;
+function nextSec(n){
+  if(!validateSec(n)) return;
+  document.getElementById('sec-'+n).style.display='none';
+  document.getElementById('sec-'+(n+1)).style.display='block';
+  document.getElementById('st'+n).className='step done';
+  document.getElementById('st'+(n+1)).className='step active';
+  currentSec = n+1;
+  window.scrollTo(0,0);
+}
+function prevSec(n){
+  document.getElementById('sec-'+n).style.display='none';
+  document.getElementById('sec-'+(n-1)).style.display='block';
+  document.getElementById('st'+n).className='step';
+  document.getElementById('st'+(n-1)).className='step active';
+  currentSec = n-1;
+  window.scrollTo(0,0);
+}
+
+function validateSec(n){
+  var err = document.getElementById('alert-err');
+  if(n===0){
+    if(!v('f-name')){showErr('Please enter Full Name.');return false;}
+    if(!v('f-phone')){showErr('Please enter Phone Number.');return false;}
+    if(v('f-phone').length!==10||isNaN(v('f-phone'))){showErr('Phone number must be exactly 10 digits.');return false;}
+    if(!v('f-father')){showErr('Please enter Father Name.');return false;}
+    if(!v('f-emrg')){showErr('Please enter Parent/Guardian Phone.');return false;}
+    if(!v('f-addr')){showErr('Please enter Home Address.');return false;}
+    if(!v('f-study')){showErr('Please enter Coaching/College name.');return false;}
+  }
+  if(n===1){
+    if(!v('f-hostel')){showErr('Please select a Hostel.');return false;}
+    if(!v('f-room')){showErr('Please select a Room Number from the grid.');return false;}
+    if(!v('f-movein')){showErr('Please select Move-in Date.');return false;}
+    if(!v('f-months')){showErr('Please enter Number of Months to Stay.');return false;}
+    if(!v('f-rent')){showErr('Please select Monthly Rent amount.');return false;}
+  }
+  if(n===2){
+    if(!v('f-idnum')){showErr('Please enter your ID number.');return false;}
+    if(!idScanFront){showErr('Please scan or upload the FRONT side of your ID proof.');return false;}
+    if(!idScanBack){showErr('Please scan or upload the BACK side of your ID proof.');return false;}
+    if(!document.getElementById('f-photo').files.length && !document.getElementById('photo-preview').src.startsWith('data')){showErr('Please upload your passport photo.');return false;}
+  }
+  err.style.display='none';
+  return true;
+}
+
+function v(id){return document.getElementById(id).value.trim();}
+function showErr(msg){var e=document.getElementById('alert-err');e.textContent=msg;e.style.display='block';window.scrollTo(0,0);}
+function showSuc(msg){var e=document.getElementById('alert-suc');e.textContent=msg;e.style.display='block';window.scrollTo(0,0);}
+
+// ===== PHOTO PREVIEW =====
+function previewPhoto(inp){
+  if(inp.files&&inp.files[0]){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var img=document.getElementById('photo-preview');
+      img.src=e.target.result;
+      img.style.display='block';
+      document.querySelector('#photo-box .photo-icon').style.display='none';
+      document.querySelector('#photo-box .photo-label').textContent='Photo selected!';
+    };
+    reader.readAsDataURL(inp.files[0]);
+  }
+}
+
+// ===== SIGNATURE =====
+var canvas, ctx, drawing=false, hasSig=false;
+window.addEventListener('DOMContentLoaded',function(){
+  canvas=document.getElementById('sig-canvas');
+  ctx=canvas.getContext('2d');
+  ctx.strokeStyle='#1a1a2e';
+  ctx.lineWidth=2.5;
+  ctx.lineCap='round';
+  // Mouse
+  canvas.addEventListener('mousedown',function(e){drawing=true;ctx.beginPath();ctx.moveTo(pos(e).x,pos(e).y);});
+  canvas.addEventListener('mousemove',function(e){if(!drawing)return;ctx.lineTo(pos(e).x,pos(e).y);ctx.stroke();hasSig=true;});
+  canvas.addEventListener('mouseup',function(){drawing=false;});
+  canvas.addEventListener('mouseleave',function(){drawing=false;});
+  // Touch
+  canvas.addEventListener('touchstart',function(e){e.preventDefault();drawing=true;var t=e.touches[0];ctx.beginPath();ctx.moveTo(pos(t).x,pos(t).y);});
+  canvas.addEventListener('touchmove',function(e){e.preventDefault();if(!drawing)return;var t=e.touches[0];ctx.lineTo(pos(t).x,pos(t).y);ctx.stroke();hasSig=true;});
+  canvas.addEventListener('touchend',function(){drawing=false;});
+});
+function pos(e){
+  var r=canvas.getBoundingClientRect();
+  return {x:(e.clientX-r.left)*(canvas.width/r.width),y:(e.clientY-r.top)*(canvas.height/r.height)};
+}
+function clearSig(){ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false;}
+
+// ===== SUBMIT =====
+async function submitForm(){
+  if(!hasSig){showErr('Please sign in the signature box.');return;}
+  var btn=document.getElementById('submit-btn');
+  btn.textContent='Submitting... please wait';
+  btn.disabled=true;
+  document.getElementById('alert-err').style.display='none';
+
+  try{
+    // Convert photo to base64
+    var photoData='';
+    var photoFile=document.getElementById('f-photo').files[0];
+    if(photoFile){
+      photoData=await toBase64(photoFile);
+    }
+    // Get signature as base64
+    var sigData=canvas.toDataURL('image/png');
+
+    // Build data object
+    var data={
+      name:v('f-name'),
+      phone:v('f-phone'),
+      father_name:v('f-father'),
+      emergency_contact:v('f-emrg'),
+      address:v('f-addr'),
+      studying_at:v('f-study'),
+      hostel_preference:v('f-hostel'),
+      room_number:v('f-room').toUpperCase(),
+      move_in_date:v('f-movein'),
+      months_to_stay:v('f-months'),
+      rent:v('f-rent')||'4000',
+      id_type:v('f-idtype'),
+      id_number:v('f-idnum'),
+      id_scan_url:JSON.stringify({front:idScanFront||'',back:idScanBack||''}),
+      caution_amount:v('f-caution')||'0',
+      payment_mode:v('f-paymode'),
+      photo_url:photoData,
+      signature_url:sigData,
+      status:'pending',
+      password:v('f-phone')
+    };
+
+    var result=await sb.from('Admission').insert([data]);
+    if(result.error) throw result.error;
+
+    // Show success
+    document.getElementById('form-wrap').style.display='none';
+    document.getElementById('alert-err').style.display='none';
+    var ss=document.getElementById('success-screen');
+    ss.style.display='block';
+    document.getElementById('cred-room').textContent=data.room_number.replace(/^H[1-4]-/,'');
+    document.getElementById('cred-phone').textContent=data.phone;
+
+  }catch(err){
+    showErr('Error: '+err.message+'. Please try again.');
+    btn.textContent='Submit Admission Form';
+    btn.disabled=false;
+  }
+}
+
+// ===== ROOM PICKER =====
+var FORM_ROOMS = {"H1":["001","101","102","103","104","105","106","107","108","201","202","203","204","205","206","207","208","301","302","303","304","305","306"],"H2":["101","102","103","104","105","106","107","108","201","202","203","204","205","206","207","208","301","302","303","304","305","306"],"H3":["101","102","103","104","105","106","107","108","109","110","111","112","113","114"],"H4":["001","002","003","004","005","006","101","102","103","104","105","106","107","108","109","110","201","202","203","204","205","206","207","208","209","210","301","302","303","304","305","306"]};
+var HNAMES_FORM = {H1:'House No.26',H2:'House No.27',H3:'House No.17/5',H4:'House No.139/1'};
+
+function showRooms(hostel){
+  var wrap = document.getElementById('room-picker-wrap');
+  var grid = document.getElementById('room-grid');
+  var roomInput = document.getElementById('f-room');
+  roomInput.value = '';
+  if(!hostel){ wrap.style.display='none'; return; }
+  wrap.style.display = 'block';
+  var rooms = FORM_ROOMS[hostel] || [];
+  // Group by floor
+  var floors = {};
+  rooms.forEach(function(r){
+    var fl = r[0];
+    if(!floors[fl]) floors[fl] = [];
+    floors[fl].push(r);
+  });
+  var floorKeys = Object.keys(floors).sort(function(a,b){return b-a;});
+  var floorLabels = {'3':'3rd Floor (301,302...)','2':'2nd Floor (201,202...)','1':'1st Floor (101,102...)','0':'Ground Floor (001,002...)'};
+  var html2 = '';
+  floorKeys.forEach(function(fl){
+    html2 += '<span class="floor-label">'+(floorLabels[fl]||fl+'th Floor')+'</span>';
+    html2 += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px">';
+    floors[fl].forEach(function(r){
+      html2 += '<div class="room-btn" data-room="'+hostel+'-'+r+'" onclick="selectRoom(this)" >'+r+'</div>';
+    });
+    html2 += '</div>';
+  });
+  grid.innerHTML = html2;
+}
+
+function selectRoom(el){
+  var fullRoom = el.getAttribute('data-room');
+  document.querySelectorAll('.room-btn').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+  document.getElementById('f-room').value = fullRoom;
+}
+
+// ===== ID SCANNER - FRONT & BACK =====
+var idScanFront = '';
+var idScanBack = '';
+var idCamStream = null;
+var idCamSide = 'front';
+
+async function startIDCamera(side){
+  idCamSide = side;
+  // Stop any existing stream
+  if(idCamStream){ idCamStream.getTracks().forEach(function(t){t.stop();}); idCamStream=null; }
+
+  var vid = document.getElementById('id-video-'+side);
+  var ctrl = document.getElementById('id-cam-ctrl-'+side);
+  var status = document.getElementById('id-'+side+'-status');
+
+  try{
+    // Try rear camera first (environment), fall back to any camera
+    var constraints = {video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}};
+    try{
+      idCamStream = await navigator.mediaDevices.getUserMedia(constraints);
+    } catch(e2){
+      idCamStream = await navigator.mediaDevices.getUserMedia({video:true});
+    }
+    vid.srcObject = idCamStream;
+    vid.style.display = 'block';
+    ctrl.style.display = 'block';
+    document.getElementById('id-'+side+'-preview-wrap').style.display = 'none';
+    status.textContent = 'Camera on — point at '+side+' of ID';
+    status.style.color = '#4f8ef7';
+  } catch(e){
+    status.textContent = 'Camera blocked — please use Upload button instead';
+    status.style.color = 'var(--dan)';
+    alert('Camera not accessible.\n\nPlease tap "Upload" to pick a photo from your gallery.');
+  }
+}
+
+function captureID(side){
+  var vid = document.getElementById('id-video-'+side);
+  var canvas = document.getElementById('id-canvas-'+side);
+  if(!vid.videoWidth){ alert('Camera not ready yet. Wait a moment.'); return; }
+  canvas.width = vid.videoWidth;
+  canvas.height = vid.videoHeight;
+  canvas.getContext('2d').drawImage(vid,0,0);
+  var data = canvas.toDataURL('image/jpeg',0.85);
+  // Stop camera
+  if(idCamStream){ idCamStream.getTracks().forEach(function(t){t.stop();}); idCamStream=null; }
+  vid.style.display='none';
+  document.getElementById('id-cam-ctrl-'+side).style.display='none';
+  showIDPreview(data, side);
+}
+
+function loadIDFile(inp, side){
+  if(!inp.files||!inp.files[0]) return;
+  var reader = new FileReader();
+  reader.onload = function(e){ showIDPreview(e.target.result, side); };
+  reader.onerror = function(){ alert('Could not read file. Try another image.'); };
+  reader.readAsDataURL(inp.files[0]);
+}
+
+function showIDPreview(src, side){
+  if(side==='front') idScanFront=src;
+  else idScanBack=src;
+  var img = document.getElementById('id-'+side+'-preview');
+  img.src = src;
+  document.getElementById('id-'+side+'-preview-wrap').style.display='block';
+  document.getElementById('id-'+side+'-status').textContent='';
+}
+
+function clearIDScan(side){
+  if(side==='front') idScanFront='';
+  else idScanBack='';
+  if(idCamStream){ idCamStream.getTracks().forEach(function(t){t.stop();}); idCamStream=null; }
+  document.getElementById('id-'+side+'-preview-wrap').style.display='none';
+  document.getElementById('id-video-'+side).style.display='none';
+  document.getElementById('id-cam-ctrl-'+side).style.display='none';
+  document.getElementById('id-'+side+'-status').textContent='Not scanned yet';
+  document.getElementById('id-'+side+'-status').style.color='var(--mut)';
+  // Reset file input
+  var fi = document.getElementById('id-'+side+'-file');
+  if(fi) fi.value='';
+}
+
+function toBase64(file){
+  return new Promise(function(resolve,reject){
+    var r=new FileReader();
+    r.onload=function(){resolve(r.result);};
+    r.onerror=reject;
+    r.readAsDataURL(file);
+  });
+}
+</script>
+</body>
+</html>

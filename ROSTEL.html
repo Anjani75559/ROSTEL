@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/><meta http-equiv="pragma" content="no-cache"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rostel</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0b0d12;--sur:#13161f;--sur2:#1a1e2a;--bor:#272b3d;--acc:#f5a623;--acc2:#4f8ef7;--dan:#f05252;--suc:#22c55e;--war:#f59e0b;--pur:#a78bfa;--txt:#e6e9f4;--mut:#5a6079;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--txt);font-family:var(--fb);height:100vh;overflow:hidden;}
+.app{display:flex;height:100vh;}
+.sidebar{width:230px;min-width:230px;background:var(--sur);border-right:1px solid var(--bor);display:flex;flex-direction:column;}
+.logo{padding:20px;border-bottom:1px solid var(--bor);font-family:var(--fh);font-size:20px;font-weight:800;letter-spacing:-.5px;}
+.logo span{color:var(--acc);}
+.logo small{display:block;font-size:10px;font-weight:400;color:var(--mut);font-family:var(--fb);margin-top:2px;}
+nav{padding:10px 0;flex:1;}
+.ni{display:flex;align-items:center;gap:10px;padding:11px 20px;cursor:pointer;font-size:13px;font-weight:500;color:var(--mut);border-left:3px solid transparent;transition:all .15s;}
+.ni:hover{color:var(--txt);background:var(--sur2);}
+.ni.active{color:var(--acc);border-left-color:var(--acc);background:rgba(245,166,35,.07);}
+.nbadge{background:var(--dan);color:#fff;font-size:10px;font-weight:700;border-radius:99px;padding:1px 6px;margin-left:auto;}
+.sf{padding:14px;border-top:1px solid var(--bor);}
+.ob{background:var(--sur2);border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px;}
+.oa{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),#c97d10);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#000;flex-shrink:0;}
+.on{font-size:13px;font-weight:600;}
+.or{font-size:11px;color:var(--mut);}
+.main{flex:1;overflow-y:auto;padding:26px 30px;background:var(--bg);}
+.page{display:none;}
+.page.active{display:block;animation:fi .2s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;}
+.pt{font-family:var(--fh);font-size:24px;font-weight:800;}
+.ps{color:var(--mut);font-size:13px;margin-top:3px;}
+.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:var(--sur);border:1px solid var(--bor);border-radius:12px;padding:16px;position:relative;overflow:hidden;}
+.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.sc.o::after{background:var(--acc)}.sc.b::after{background:var(--acc2)}.sc.g::after{background:var(--suc)}.sc.r::after{background:var(--dan)}
+.sl{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;}
+.sv{font-family:var(--fh);font-size:28px;font-weight:800;}
+.si{position:absolute;right:12px;top:14px;font-size:24px;opacity:.12;}
+.card{background:var(--sur);border:1px solid var(--bor);border-radius:12px;overflow:hidden;margin-bottom:18px;}
+.ch{padding:14px 18px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.ct{font-family:var(--fh);font-weight:700;font-size:14px;}
+table{width:100%;border-collapse:collapse;}
+th{padding:10px 16px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--mut);border-bottom:1px solid var(--bor);}
+td{padding:12px 16px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--sur2);}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+.bg{background:rgba(34,197,94,.15);color:var(--suc);}
+.br{background:rgba(240,82,82,.15);color:var(--dan);}
+.by{background:rgba(245,158,11,.15);color:var(--war);}
+.bb{background:rgba(79,142,247,.15);color:var(--acc2);}
+.bm{background:rgba(107,114,128,.15);color:var(--mut);}
+.bh1{background:rgba(245,166,35,.18);color:#f5a623;}.bleft{background:rgba(240,82,82,.15);color:var(--dan);}.bh2{background:rgba(79,142,247,.18);color:#4f8ef7;}.bh3{background:rgba(34,197,94,.18);color:#22c55e;}.bh4{background:rgba(167,139,250,.18);color:#a78bfa;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:7px;border:none;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.bp{background:var(--acc);color:#000;}.bp:hover{background:#e09010;}
+.bg2{background:var(--sur2);color:var(--txt);border:1px solid var(--bor);}.bg2:hover{border-color:var(--acc);color:var(--acc);}
+.bd{background:rgba(240,82,82,.12);color:var(--dan);border:1px solid rgba(240,82,82,.2);}
+.bs{background:rgba(34,197,94,.12);color:var(--suc);border:1px solid rgba(34,197,94,.2);}
+.bb2{background:rgba(79,142,247,.12);color:var(--acc2);border:1px solid rgba(79,142,247,.2);}
+.bsm{padding:4px 9px;font-size:11px;}
+.av{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#000;margin-right:7px;flex-shrink:0;}
+.av1{background:linear-gradient(135deg,#f4a127,#e07b10);}.av2{background:linear-gradient(135deg,#4f8ef7,#1d4ed8);}.av3{background:linear-gradient(135deg,#22c55e,#15803d);}.av4{background:linear-gradient(135deg,#a78bfa,#7c3aed);}.av5{background:linear-gradient(135deg,#ec4899,#be185d);}.av6{background:linear-gradient(135deg,#06b6d4,#0e7490);}.av7{background:linear-gradient(135deg,#f59e0b,#b45309);}.av8{background:linear-gradient(135deg,#84cc16,#3f6212);}
+.ck{width:22px;height:22px;border-radius:6px;border:2px solid var(--bor);cursor:pointer;background:transparent;display:inline-flex;align-items:center;justify-content:center;font-size:12px;transition:all .15s;flex-shrink:0;}
+.ck.on{background:var(--suc);border-color:var(--suc);}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;}
+.mo.open{display:flex;}
+.md{background:var(--sur);border:1px solid var(--bor);border-radius:16px;padding:24px;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto;animation:mi .2s ease;}
+@keyframes mi{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.mt{font-family:var(--fh);font-size:17px;font-weight:800;margin-bottom:16px;}
+.ma{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+label{font-size:10px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;}
+input,select,textarea{background:var(--sur2);border:1px solid var(--bor);border-radius:7px;color:var(--txt);font-family:var(--fb);font-size:13px;padding:8px 11px;outline:none;transition:border-color .15s;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:var(--acc);}
+select option{background:var(--sur2);}
+textarea{resize:vertical;min-height:65px;}
+.sb{background:var(--sur2);border:1px solid var(--bor);border-radius:7px;padding:7px 11px;font-size:12px;color:var(--txt);font-family:var(--fb);width:200px;outline:none;}
+.sb:focus{border-color:var(--acc);}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.cc{background:var(--sur);border:1px solid var(--bor);border-radius:12px;padding:16px;transition:border-color .15s;}
+.cc:hover{border-color:var(--acc2);}
+.ro{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+.rbc{background:var(--sur);border:1px solid var(--bor);border-radius:12px;padding:20px;}
+.ra{font-family:var(--fh);font-size:30px;font-weight:800;color:var(--acc);}
+.pb{background:var(--sur2);border-radius:999px;height:5px;margin-top:12px;}
+.pf{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--acc),#e09010);transition:width .4s ease;}
+.pi{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-top:3px;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--sur);border:1px solid var(--bor);border-radius:9px;padding:11px 16px;font-size:13px;z-index:999;display:flex;align-items:center;gap:8px;box-shadow:0 8px 28px rgba(0,0,0,.4);transform:translateY(70px);opacity:0;transition:all .25s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.empty{text-align:center;padding:40px 20px;color:var(--mut);}
+.empty-icon{font-size:36px;margin-bottom:10px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.tab{padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;color:var(--mut);transition:all .15s;}
+.tab.active{background:var(--sur);color:var(--txt);box-shadow:0 2px 6px rgba(0,0,0,.3);}
+.alert-info{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);color:var(--acc2);border-radius:9px;padding:10px 14px;font-size:12px;margin-bottom:14px;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--bor);border-radius:3px;}
+
+/* ===== LOGIN SCREEN ===== */
+.login-screen{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;}
+.login-box{background:var(--sur);border:1px solid var(--bor);border-radius:20px;padding:36px 32px;width:420px;max-width:95vw;text-align:center;}
+.login-logo{font-family:var(--fh);font-size:28px;font-weight:800;margin-bottom:4px;}
+.login-logo span{color:var(--acc);}
+.login-sub{font-size:12px;color:var(--mut);margin-bottom:28px;}
+.login-tabs{display:flex;background:var(--sur2);border-radius:10px;padding:3px;margin-bottom:24px;}
+.login-tab{flex:1;padding:9px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;color:var(--mut);transition:all .15s;border:none;background:transparent;font-family:var(--fb);}
+.login-tab.active{background:var(--sur);color:var(--txt);box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.login-form{display:flex;flex-direction:column;gap:12px;text-align:left;}
+.login-form input{background:var(--sur2);border:1px solid var(--bor);border-radius:9px;color:var(--txt);font-family:var(--fb);font-size:14px;padding:12px 14px;outline:none;transition:border-color .15s;width:100%;}
+.login-form input:focus{border-color:var(--acc);}
+.login-btn{background:var(--acc);color:#000;border:none;border-radius:9px;padding:13px;font-family:var(--fh);font-size:14px;font-weight:700;cursor:pointer;width:100%;transition:background .15s;margin-top:4px;}
+.login-btn:hover{background:#e09010;}
+.login-err{background:rgba(240,82,82,.1);border:1px solid rgba(240,82,82,.25);color:var(--dan);border-radius:7px;padding:9px 12px;font-size:12px;display:none;}
+.login-hint{font-size:11px;color:var(--mut);margin-top:10px;}
+/* ===== STUDENT PORTAL ===== */
+.student-app{display:none;height:100vh;flex-direction:column;}
+.student-header{background:var(--sur);border-bottom:1px solid var(--bor);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+.student-nav{display:flex;gap:4px;background:var(--sur2);border-radius:9px;padding:3px;}
+.student-tab{padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:var(--mut);transition:all .15s;border:none;background:transparent;font-family:var(--fb);}
+.student-tab.active{background:var(--sur);color:var(--acc);box-shadow:0 2px 6px rgba(0,0,0,.3);}
+.student-main{flex:1;overflow-y:auto;padding:24px;}
+.student-page{display:none;}
+.student-page.active{display:block;animation:fi .2s ease;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.info-cell{background:var(--sur2);border-radius:9px;padding:12px;}
+.info-label{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.info-val{font-weight:600;font-size:13px;}
+.rent-card{background:var(--sur);border:2px solid var(--bor);border-radius:14px;padding:24px;text-align:center;margin-bottom:16px;}
+.rent-status-big{font-family:var(--fh);font-size:42px;font-weight:800;margin:10px 0;}
+.notice-item{background:var(--sur2);border-radius:10px;padding:14px;margin-bottom:10px;border-left:3px solid var(--acc);}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px){
+
+  /* Hide sidebar, show bottom nav */
+  .sidebar{ display:none !important; }
+  .app{ flex-direction:column; }
+  .main{ padding:14px 12px 80px; overflow-y:auto; height:100vh; }
+
+  /* Bottom navigation bar */
+  .mobile-nav{
+    display:flex !important;
+    position:fixed;
+    bottom:0;left:0;right:0;
+    background:var(--sur);
+    border-top:1px solid var(--bor);
+    z-index:100;
+    padding:6px 0 8px;
+  }
+  .mobile-nav-item{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    cursor:pointer;
+    padding:4px 2px;
+    color:var(--mut);
+    font-size:9px;
+    font-weight:600;
+    position:relative;
+    transition:color .15s;
+  }
+  .mobile-nav-item.active{ color:var(--acc); }
+  .mobile-nav-item span.icon{ font-size:20px; }
+  .mobile-nav-badge{
+    position:absolute;
+    top:0;right:14px;
+    background:var(--dan);
+    color:#fff;
+    font-size:9px;
+    font-weight:700;
+    border-radius:99px;
+    padding:1px 5px;
+    min-width:16px;
+    text-align:center;
+  }
+
+  /* Stack all grids to single column */
+  .sr{ grid-template-columns:1fr 1fr !important; gap:8px !important; }
+  .g2{ grid-template-columns:1fr !important; }
+  .ro{ grid-template-columns:1fr !important; }
+  .fr{ grid-template-columns:1fr !important; }
+  .cg{ grid-template-columns:1fr !important; }
+
+  /* Stat cards smaller */
+  .sv{ font-size:22px !important; }
+  .sl{ font-size:10px !important; }
+  .sc{ padding:12px !important; }
+
+  /* Page title smaller */
+  .pt{ font-size:18px !important; }
+  .ps{ font-size:12px !important; }
+  .topbar{ margin-bottom:14px !important; flex-wrap:wrap; gap:8px; }
+
+  /* Tables scroll horizontally */
+  .card{ overflow-x:auto; }
+  table{ min-width:500px; }
+  th,td{ padding:8px 10px !important; font-size:12px !important; }
+
+  /* Modals full screen */
+  .md{ width:96vw !important; max-height:92vh !important; padding:18px !important; }
+
+  /* Buttons smaller */
+  .btn{ font-size:12px !important; padding:7px 11px !important; }
+  .bp{ font-size:13px !important; }
+
+  /* Card headers */
+  .ch{ padding:11px 14px !important; flex-wrap:wrap; gap:6px; }
+  .ct{ font-size:13px !important; }
+
+  /* Cleaning grid */
+  #clean-grid{ grid-template-columns:1fr !important; }
+
+  /* Vacant rooms grid */
+  #vacant-content .g2{ grid-template-columns:1fr !important; }
+
+  /* Search bar full width */
+  .sb{ width:100% !important; }
+
+  /* Student portal tabs wrap */
+  .student-nav{ flex-wrap:wrap; gap:3px; }
+  .student-tab{ font-size:11px !important; padding:5px 8px !important; }
+  .student-header{ flex-wrap:wrap; gap:8px; padding:10px 14px !important; }
+
+  /* Info grid in student portal */
+  .info-grid{ grid-template-columns:1fr !important; }
+
+  /* Login box */
+  .login-box{ padding:24px 18px !important; }
+  .login-logo{ font-size:22px !important; }
+
+  /* Complaint cards */
+  .cc{ padding:12px !important; }
+
+  /* Hide floor column in table on mobile */
+  td:nth-child(4), th:nth-child(4){ display:none; }
+
+  /* Topbar button wraps below title */
+  .topbar > button{ width:100%; justify-content:center; }
+}
+
+@media (max-width: 400px){
+  .sr{ grid-template-columns:1fr !important; }
+  .mobile-nav-item span.icon{ font-size:18px; }
+  .mobile-nav-item{ font-size:8px; }
+}
+
+.month-tab{
+  padding:7px 14px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  border:1.5px solid var(--bor);
+  background:var(--sur);
+  color:var(--mut);
+  transition:all .15s;
+  white-space:nowrap;
+}
+.month-tab:hover{border-color:var(--acc);color:var(--acc);}
+.month-tab.active{background:var(--acc);color:#000;border-color:var(--acc);}
+.month-tab.has-data{border-color:rgba(34,197,94,.4);color:var(--suc);}
+.month-tab.active.has-data{background:var(--acc);color:#000;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">ROSTEL<small>Management System</small></div>
+  <nav>
+    <div class="ni active" onclick="go('dashboard')"><span>🏠</span> Dashboard</div>
+    <div class="ni" onclick="go('hostellers')"><span>👥</span> Hostellers</div>
+    <div class="ni" onclick="go('rent')"><span>💰</span> Rent Tracker</div>
+    <div class="ni" onclick="go('complaints')"><span>📋</span> Complaints <span class="nbadge" id="cbadge">0</span></div>
+    <div class="ni" onclick="go('cleaning')"><span>🧹</span> Cleaning Schedule</div>
+    <div class="ni" onclick="go('vacant')"><span>🚪</span> Vacant Rooms <span class="nbadge" id="vacant-badge" style="background:var(--suc)">0</span></div>
+    <div class="ni" onclick="go('admin')"><span>⚙️</span> Admin Panel</div>
+    <div class="ni" onclick="go('admissions')"><span>📝</span> New Admissions <span class="nbadge" id="adm-badge" style="display:none">0</span></div>
+  </nav>
+  <div class="sf">
+    <div class="ob">
+      <div class="oa" id="owner-init">RK</div>
+      <div><div class="on" id="owner-name">Hostel Owner</div><div class="or">Administrator</div></div><button class="btn bd bsm" onclick="ownerLogout()" style="margin-left:auto">Logout</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main" id="main">
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div class="topbar"><div><div class="pt">Dashboard</div><div class="ps" id="dash-date"></div></div></div>
+  <div class="sr">
+    <div class="sc o"><div class="sl">Total Hostellers</div><div class="sv" id="s-total">0</div><div class="si">👥</div></div>
+    <div class="sc r"><div class="sl">Rent Pending</div><div class="sv" id="s-pend">0</div><div class="si">⏳</div></div>
+    <div class="sc b"><div class="sl">Open Complaints</div><div class="sv" id="s-comp">0</div><div class="si">📋</div></div>
+    <div class="sc g"><div class="sl">Rent Collected</div><div class="sv" id="s-coll">0</div><div class="si">✅</div></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Recent Enrollments</div></div><div id="dash-hostellers"></div></div>
+    <div class="card"><div class="ch"><div class="ct">Recent Complaints</div></div><div id="dash-complaints"></div></div>
+  </div>
+</div>
+
+<!-- HOSTELLERS -->
+<div class="page" id="page-hostellers">
+  <div class="topbar">
+    <div><div class="pt">Hostellers</div><div class="ps">Manage all enrolled residents</div></div>
+    <button class="btn bp" onclick="openModal('m-enroll')">+ Enroll New</button>
+  </div>
+  <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+    <span style="font-size:11px;color:var(--mut)">Filter:</span>
+    <button class="btn bg2 bsm" id="hf-all" onclick="setHF('all')">All Hostels</button>
+    <button class="btn bg2 bsm" id="hf-H1" onclick="setHF('H1')">No.26</button>
+    <button class="btn bg2 bsm" id="hf-H2" onclick="setHF('H2')">No.27</button>
+    <button class="btn bg2 bsm" id="hf-H3" onclick="setHF('H3')">No.17/5</button>
+    <button class="btn bg2 bsm" id="hf-H4" onclick="setHF('H4')">No.139/1</button>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ct" id="h-count">All Residents</div><input class="sb" placeholder="Search name or room..." oninput="hSearch(this.value)"/></div>
+    <table><thead><tr><th>Name &amp; Phone</th><th>Hostel</th><th>Room</th><th>Floor</th><th>Move-in</th><th>Rent/Mo</th><th>Caution</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody id="h-tbody"></tbody></table>
+  </div>
+</div>
+
+<!-- RENT -->
+<div class="page" id="page-rent">
+  <div class="topbar">
+    <div><div class="pt">Rent Tracker</div><div class="ps">Month-wise fee collection</div></div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <button class="btn bg2 bsm" onclick="shiftRentMonth(-1)">← Prev</button>
+      <div id="rent-month-display" style="font-family:var(--fh);font-weight:700;font-size:15px;color:var(--acc);min-width:130px;text-align:center"></div>
+      <button class="btn bg2 bsm" onclick="shiftRentMonth(1)">Next →</button>
+    </div>
+  </div>
+  <!-- Summary cards -->
+  <div class="ro" style="margin-bottom:18px">
+    <div class="rbc">
+      <div class="ra" id="r-amt">Rs.0</div>
+      <div style="font-size:12px;color:var(--mut);margin-top:3px">Collected This Month</div>
+      <div class="pb"><div class="pf" id="r-bar" style="width:0%"></div></div>
+      <div class="pi"><span id="r-pct">0%</span><span id="r-total"></span></div>
+    </div>
+    <div class="rbc">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><div style="font-size:11px;color:var(--mut);margin-bottom:2px">Paid</div><div style="font-family:var(--fh);font-size:24px;font-weight:800;color:var(--suc)" id="r-paid">0</div></div>
+        <div><div style="font-size:11px;color:var(--mut);margin-bottom:2px">Pending</div><div style="font-family:var(--fh);font-size:24px;font-weight:800;color:var(--dan)" id="r-pend">0</div></div>
+        <div><div style="font-size:11px;color:var(--mut);margin-bottom:2px">Due Amount</div><div style="font-family:var(--fh);font-size:18px;font-weight:800;color:var(--war)" id="r-due">0</div></div>
+        <div><div style="font-size:11px;color:var(--mut);margin-bottom:2px">Due Date</div><div style="font-family:var(--fh);font-size:18px;font-weight:800" id="r-ddate">10th</div></div>
+      </div>
+    </div>
+  </div>
+  <!-- Collection table -->
+  <div class="card">
+    <div class="ch">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="ct">Collection —</div>
+        <select id="rent-month-sel" style="background:var(--sur2);border:1.5px solid var(--acc);border-radius:8px;color:var(--acc);padding:6px 12px;font-size:14px;font-weight:700;font-family:var(--fh);outline:none;cursor:pointer" onchange="changeRentMonth()"></select>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <button class="btn bg2 bsm" onclick="markAllPaid()">✓ Mark All Paid</button>
+        <button class="btn bd bsm" onclick="resetMonthRent()">Reset Month</button>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>✓</th><th>Name &amp; Phone</th><th>Hostel</th><th>Room</th><th>Amount</th><th>Mode</th><th>Bank</th><th>Status</th></tr></thead>
+      <tbody id="r-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- COMPLAINTS -->
+<div class="page" id="page-complaints">
+  <div class="topbar"><div><div class="pt">Complaints</div><div class="ps">View and resolve hosteller issues</div></div><button class="btn bp" onclick="openModal('m-complaint')">+ Add Complaint</button></div>
+  <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap">
+    <button class="btn bg2 bsm" id="cf-all" onclick="filterC('all')">All</button>
+    <button class="btn bg2 bsm" id="cf-open" onclick="filterC('open')">Open</button>
+    <button class="btn bg2 bsm" id="cf-inprogress" onclick="filterC('inprogress')">In Progress</button>
+    <button class="btn bg2 bsm" id="cf-resolved" onclick="filterC('resolved')">Resolved</button>
+  </div>
+  <div class="cg" id="c-grid"></div>
+  <div class="empty" id="c-empty" style="display:none"><div class="empty-icon">📋</div><div>No complaints here</div></div>
+</div>
+
+<!-- CLEANING -->
+<div class="page" id="page-cleaning">
+  <div class="topbar">
+    <div><div class="pt">Cleaning Schedule</div><div class="ps">5 rooms/day per hostel · Corridor every Sunday</div></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div style="font-size:11px;color:var(--mut)" id="clean-today"></div>
+      <button class="btn bd bsm" onclick="resetClean()">Reset Week</button>
+    </div>
+  </div>
+  <div id="sun-banner" style="display:none;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);border-radius:11px;padding:14px 18px;margin-bottom:18px;align-items:center;gap:12px">
+    <span style="font-size:22px">🏢</span>
+    <div><div style="font-family:var(--fh);font-weight:700;color:var(--pur)">Sunday — Corridor Cleaning Day!</div><div style="font-size:12px;color:var(--mut)">All house corridors must be cleaned today</div></div>
+    <div id="corr-checks" style="margin-left:auto;display:flex;gap:10px"></div>
+  </div>
+  <div style="display:flex;gap:3px;background:var(--sur2);border-radius:9px;padding:3px;margin-bottom:18px;width:fit-content">
+    <div class="tab active" id="dt-0" onclick="selDay(0)">Mon</div>
+    <div class="tab" id="dt-1" onclick="selDay(1)">Tue</div>
+    <div class="tab" id="dt-2" onclick="selDay(2)">Wed</div>
+    <div class="tab" id="dt-3" onclick="selDay(3)">Thu</div>
+    <div class="tab" id="dt-4" onclick="selDay(4)">Fri</div>
+    <div class="tab" id="dt-5" onclick="selDay(5)">Sat</div>
+    <div class="tab" id="dt-6" onclick="selDay(6)" style="color:var(--pur)">Sun</div>
+  </div>
+  <div class="g2" id="clean-grid"></div>
+  <div class="card" style="margin-top:18px">
+    <div class="ch"><div class="ct">⚠️ Feedback Issues This Week</div><div style="font-size:11px;color:var(--mut)">Unhappy or Issue reactions from occupants</div></div>
+    <div style="padding:14px;display:flex;flex-direction:column;gap:9px" id="fb-issues"></div>
+  </div>
+</div>
+
+
+<!-- ADMISSIONS -->
+<div class="page" id="page-admissions">
+  <div class="topbar">
+    <div><div class="pt">New Admissions</div><div class="ps">Students who submitted the joining form</div></div>
+    <button class="btn bg2 bsm" onclick="loadAdmissions()">Refresh</button>
+  </div>
+  <div id="adm-list"><div class="empty"><div class="empty-icon">📝</div><div>Loading admissions...</div></div></div>
+</div>
+
+<!-- VACANT ROOMS -->
+<div class="page" id="page-vacant">
+  <div class="topbar">
+    <div><div class="pt">Vacant Rooms</div><div class="ps">Rooms currently available for new admissions</div></div>
+    <button class="btn bg2 bsm" onclick="renderVacant()">Refresh</button>
+  </div>
+  <div id="vacant-content"></div>
+</div>
+
+<!-- ADMIN -->
+<div class="page" id="page-admin">
+  <div class="topbar"><div><div class="pt">Admin Panel</div><div class="ps">Settings and data management</div></div></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><div class="ct">Hostel Settings</div></div>
+      <div style="padding:18px">
+        <div class="fg"><label>Hostel Name</label><input id="s-name" placeholder="e.g. Sunrise Hostel"/></div>
+        <div class="fg"><label>Owner Name</label><input id="s-owner" placeholder="Your name"/></div>
+        <div class="fg"><label>Phone</label><input id="s-phone" placeholder="+91..."/></div>
+        <div class="fg"><label>Address</label><textarea id="s-addr" placeholder="Full address..."></textarea></div>
+        <div class="fr">
+          <div class="fg"><label>Due Date (day)</label><input id="s-due" type="number" min="1" max="28" placeholder="10"/></div>
+          <div class="fg"><label>Default Rent (Rs)</label><input id="s-rent" type="number" placeholder="4000"/></div>
+        </div>
+        <div class="fg"><label>Owner Login PIN</label><input id="s-pin" type="password" placeholder="Change PIN (default: 1234)"/></div><button class="btn bp" onclick="saveSettings()" style="width:100%;justify-content:center">Save Settings</button>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="ch"><div class="ct">System Summary</div></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:10px" id="admin-sum"></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">Data Management</div></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:8px">
+          <div class="alert-info">These actions cannot be undone.</div>
+          <button class="btn bd" onclick="clearHostellers()" style="width:100%;justify-content:center">Clear All Hostellers</button>
+          <button class="btn bd" onclick="clearComplaints()" style="width:100%;justify-content:center">Clear All Complaints</button>
+          <button class="btn bb2" onclick="reloadDemo()" style="width:100%;justify-content:center">Reload Demo Data</button>
+          <button class="btn bp" onclick="hardReset()" style="width:100%;justify-content:center;margin-top:4px">Fix & Reload Fresh Data</button>
+          <button class="btn bd" onclick="clearAll()" style="width:100%;justify-content:center">Reset Everything</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- MODAL: ENROLL -->
+<div class="mo" id="m-enroll">
+  <div class="md">
+    <div class="mt">Enroll New Hosteller</div>
+    <div class="fr"><div class="fg"><label>Full Name *</label><input id="h-name" placeholder="Rahul Sharma"/></div><div class="fg"><label>Room Number *</label><input id="h-room" placeholder="e.g. H1-001 or H4-101"/></div></div>
+    <div class="fr"><div class="fg"><label>Phone *</label><input id="h-phone" placeholder="98765..." type="tel"/></div><div class="fg"><label>Emergency Contact</label><input id="h-emrg" placeholder="Parent phone"/></div></div>
+    <div class="fr"><div class="fg"><label>Move-in Date *</label><input id="h-date" type="date"/></div><div class="fg"><label>Months to Stay</label><input id="h-months" type="number" placeholder="e.g. 6"/></div></div><div class="fr"><div class="fg"><label>Move-in Date *</label><input id="h-date2" style="display:none"/></div><div class="fg"><label>Rent/Month (Rs) *</label>
+          <select id="h-rent">
+            <option value="">-- Select --</option>
+            <option value="6000">Rs. 6,000</option>
+            <option value="9000">Rs. 9,000</option>
+            <option value="other">Other</option>
+          </select>
+        </div></div>
+    <div class="fr">
+      <div class="fg"><label>Hostel *</label><select id="h-hostel"><option value="H1">House No.26</option><option value="H2">House No.27</option><option value="H3">House No.17/5</option><option value="H4">House No.139/1</option></select></div>
+      <div class="fg"><label>Floor</label><select id="h-floor"><option>Ground Floor (001-009)</option><option>1st Floor (101-199)</option><option>2nd Floor (201-299)</option><option>3rd Floor (301-399)</option></select></div>
+    </div>
+    <div class="fr"><div class="fg"><label>Room Type</label><select id="h-rtype"><option>Single</option><option>Double Sharing</option><option>Triple Sharing</option></select></div><div class="fg"><label>ID Type</label><select id="h-idtype"><option>Aadhaar Card</option><option>PAN Card</option><option>Voter ID</option><option>Driving License</option><option>Passport</option></select></div></div>
+    <div class="fr"><div class="fg"><label>ID Number</label><input id="h-idnum" placeholder="ID number"/></div><div class="fg"><label>Hometown</label><input id="h-addr" placeholder="City, State"/></div></div>
+    <div class="fg">
+      <label>ID Proof Scan (Photo)</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button type="button" class="btn bg2 bsm" onclick="openIDScanner()" style="white-space:nowrap">📷 Scan / Upload</button>
+        <span style="font-size:11px;color:var(--mut)" id="id-scan-status">No scan yet</span>
+      </div>
+      <img id="id-scan-preview" style="display:none;max-width:100%;max-height:120px;border-radius:7px;margin-top:6px;border:1px solid var(--bor)"/>
+    </div>
+    <div style="background:var(--sur2);border-radius:9px;padding:12px;margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px">Caution Money</div>
+      <div class="fr">
+        <div class="fg"><label>Caution Amount (Rs)</label><input id="h-caution" type="number" placeholder="e.g. 2000"/></div>
+        <div class="fg"><label>Payment Mode</label><select id="h-paymode"><option value="cash">Cash</option><option value="online">Online</option></select></div>
+      </div>
+      <div class="fg"><label>Deposit in Bank Account</label>
+        <select id="h-bankacc">
+          <option value="">-- Select Account --</option>
+          <option value="Account 1">Account 1</option>
+          <option value="Account 2">Account 2</option>
+          <option value="Account 3">Account 3</option>
+          <option value="Account 4">Account 4</option>
+        </select>
+      </div>
+    </div>
+    <div class="ma"><button class="btn bg2" onclick="closeModal('m-enroll')">Cancel</button><button class="btn bp" onclick="enrollHosteller()">Enroll</button></div>
+  </div>
+</div>
+
+<!-- MODAL: VIEW HOSTELLER -->
+<div class="mo" id="m-view">
+  <div class="md">
+    <div class="mt" id="view-title">Hosteller Details</div>
+    <div id="view-body"></div>
+    <div class="ma"><button class="btn bg2" onclick="closeModal('m-view')">Close</button><button class="btn bd bsm" id="view-del">Remove</button></div>
+  </div>
+</div>
+
+<!-- MODAL: ADD COMPLAINT -->
+<div class="mo" id="m-complaint">
+  <div class="md">
+    <div class="mt">Add Complaint</div>
+    <div class="fg"><label>Hosteller Name *</label><input id="c-name" placeholder="Name"/></div>
+    <div class="fr">
+      <div class="fg"><label>Hostel *</label><select id="c-hostel"><option value="H1">House No.26</option><option value="H2">House No.27</option><option value="H3">House No.17/5</option><option value="H4">House No.139/1</option></select></div>
+      <div class="fg"><label>Room *</label><input id="c-room" placeholder="e.g. H1-001"/></div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label>Category *</label><select id="c-cat"><option>Cleaning</option><option>Electricity</option><option>Water Supply</option><option>WiFi/Internet</option><option>Food</option><option>Security</option><option>Plumbing</option><option>Noise</option><option>Other</option></select></div>
+      <div class="fg"><label>Priority</label><select id="c-pri"><option value="normal">Normal</option><option value="urgent">Urgent</option><option value="low">Low</option></select></div>
+    </div>
+    <div class="fg"><label>Title *</label><input id="c-title" placeholder="Short issue description"/></div>
+    <div class="fg"><label>Description</label><textarea id="c-desc" placeholder="Details..."></textarea></div>
+    <div class="ma"><button class="btn bg2" onclick="closeModal('m-complaint')">Cancel</button><button class="btn bp" onclick="addComplaint()">Submit</button></div>
+  </div>
+</div>
+
+<!-- MODAL: UPDATE COMPLAINT -->
+<div class="mo" id="m-action">
+  <div class="md">
+    <div class="mt" id="act-title">Update Complaint</div>
+    <div id="act-body"></div>
+    <div class="fg"><label>Update Status</label><select id="act-status"><option value="open">Open</option><option value="inprogress">In Progress</option><option value="resolved">Resolved</option></select></div>
+    <div class="fg"><label>Action Taken / Note</label><textarea id="act-note" placeholder="What was done or planned..."></textarea></div>
+    <div class="ma"><button class="btn bg2" onclick="closeModal('m-action')">Cancel</button><button class="btn bp" onclick="saveAction()">Save</button></div>
+  </div>
+</div>
+
+<!-- MODAL: CLEANING FEEDBACK -->
+<div class="mo" id="m-feedback">
+  <div class="md">
+    <div class="mt" id="fb-title">Room Feedback</div>
+    <div id="fb-body"></div>
+    <div style="margin-bottom:14px">
+      <label style="display:block;margin-bottom:8px;font-size:11px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.4px">Occupant Reaction</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button class="btn bg2" id="fb-btn-happy" onclick="setReaction('happy')" style="justify-content:center;padding:12px;font-size:14px">😊 Satisfied</button>
+        <button class="btn bg2" id="fb-btn-okay" onclick="setReaction('okay')" style="justify-content:center;padding:12px;font-size:14px">😐 Okay</button>
+        <button class="btn bg2" id="fb-btn-unhappy" onclick="setReaction('unhappy')" style="justify-content:center;padding:12px;font-size:14px">😠 Unhappy</button>
+        <button class="btn bd" id="fb-btn-issue" onclick="setReaction('issue')" style="justify-content:center;padding:12px;font-size:14px">⚠️ Has Issue</button>
+      </div>
+    </div>
+    <div class="fg"><label>Note (optional)</label><input id="fb-note" placeholder="e.g. floor not mopped, bin not emptied..."/></div>
+    <div class="ma"><button class="btn bg2" onclick="closeModal('m-feedback')">Cancel</button><button class="btn bp" id="fb-save" onclick="saveFeedback()" disabled>Save Feedback</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== STORAGE =====
+var K = {h:'hh_hostellers',r:'hh_rent',c:'hh_complaints',s:'hh_settings',cl:'hh_cleaning'};
+function load(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v));}
+function getH(){return load(K.h)||[];}
+function getR(){return load(K.r)||{};}
+function getRentHistory(){return load('hh_rent_history')||{};}
+function saveRentHistory(d){save('hh_rent_history',d);}
+function monthKey(date){
+  var d = date||new Date();
+  return d.toLocaleDateString('en-IN',{month:'short',year:'numeric'}).replace(' ','-');
+}
+function allMonthsSince(startDate){
+  var months=[];
+  var start = new Date('2025-08-01');
+  start.setDate(1);
+  var end = new Date('2030-12-01'); // Future months till Dec 2030
+  while(start<=end){
+    months.push(new Date(start));
+    start.setMonth(start.getMonth()+1);
+  }
+  return months.reverse(); // Latest first
+}
+function getRentBank(){return load('hh_rentbank')||{};}
+function saveRentBank2(d){save('hh_rentbank',d);}
+function saveRentBank(id,val){var rb=getRentBank();rb[id]=val;saveRentBank2(rb);}
+function getC(){return load(K.c)||[];}
+function getS(){return load(K.s)||{name:'My Hostel',owner:'Owner',phone:'',addr:'',due:'10',rent:'4000'};}
+function getCL(){return load(K.cl)||{};}
+function saveH(d){save(K.h,d);}
+function saveR(d){save(K.r,d);}
+function saveC(d){save(K.c,d);}
+function saveS(d){save(K.s,d);}
+function saveCL(d){save(K.cl,d);}
+
+// ===== NAV =====
+function go(page){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('active');});
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById('main').scrollTop=0;
+  // highlight nav
+  var map={dashboard:'Dashboard',hostellers:'Hostellers',rent:'Rent',complaints:'Complaints',cleaning:'Cleaning',admin:'Admin'};
+  document.querySelectorAll('.ni').forEach(function(n){
+    if(n.textContent.indexOf(map[page])>-1) n.classList.add('active');
+  });
+  if(page==='dashboard') renderDash();
+  if(page==='hostellers') renderHostellers();
+  if(page==='rent') renderRent();
+  if(page==='complaints') renderComplaints(cFilter);
+  if(page==='cleaning') renderCleaning();
+  if(page==='admin') renderAdmin();
+  if(page==='admissions') loadAdmissions();
+  if(page==='vacant'){ if(!getH().length) seedDemo(); renderVacant(); }
+}
+
+// ===== MODAL =====
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+window.addEventListener('DOMContentLoaded',function(){ document.querySelectorAll('.mo').forEach(function(m){ m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}); }); });
+
+// ===== TOAST =====
+function toast(msg,type){
+  var t=document.getElementById('toast');
+  t.innerHTML=(type==='error'?'❌ ':'✅ ')+msg;
+  t.className='toast show';
+  setTimeout(function(){t.className='toast';},2800);
+}
+
+// ===== UTILS =====
+function uid(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5);}
+function ini(name){return name.trim().split(' ').map(function(w){return w[0];}).join('').toUpperCase().substr(0,2);}
+function avc(name){var c=['av1','av2','av3','av4','av5','av6','av7','av8'];return c[name.charCodeAt(0)%8];}
+function fmtD(d){if(!d)return '-';var dt=new Date(d);return dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtM(n){return 'Rs.'+Number(n).toLocaleString('en-IN');}
+var HNAMES={H1:'No.26',H2:'No.27',H3:'No.17/5',H4:'No.139/1'};
+function hBadge(h){
+  var cls={H1:'bh1',H2:'bh2',H3:'bh3',H4:'bh4'};
+  return '<span class="badge '+(cls[h]||'bm')+'">'+(HNAMES[h]||h||'-')+'</span>';
+}
+function getFloorName(room){
+  if(!room) return '';
+  var num = room.replace(/^H[1-4]-/,'');
+  var first = num[0];
+  if(first==='0') return 'Ground Floor';
+  if(first==='1') return '1st Floor';
+  if(first==='2') return '2nd Floor';
+  if(first==='3') return '3rd Floor';
+  return '';
+}
+function niceRoom(r){
+  if(!r) return '-';
+  return r.replace(/^H1-/,'No.26-').replace(/^H2-/,'No.27-').replace(/^H3-/,'No.17\/5-').replace(/^H4-/,'No.139\/1-');
+}
+function sBadge(s){
+  var m={open:'<span class="badge br">Open</span>',inprogress:'<span class="badge bb">In Progress</span>',resolved:'<span class="badge bg">Resolved</span>',urgent:'<span class="badge br">Urgent</span>',normal:'<span class="badge by">Normal</span>',low:'<span class="badge bm">Low</span>'};
+  return m[s]||'<span class="badge bm">'+s+'</span>';
+}
+function updateCBadge(){
+  var open=getC().filter(function(c){return c.status!=='resolved';}).length;
+  var cb=document.getElementById('cbadge');
+  if(cb) cb.textContent=open;
+  var mnb=document.getElementById('mn-cbadge');
+  if(mnb){mnb.textContent=open;mnb.style.display=open>0?'block':'none';}
+}
+
+// ===== DASHBOARD =====
+function renderDash(){
+  var hs=getH(), cs=getC(), rn=getR();
+  var now=new Date();
+  document.getElementById('dash-date').textContent=now.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('s-total').textContent=hs.filter(function(h){return h.status!=='left';}).length;
+  document.getElementById('s-pend').textContent=hs.filter(function(h){return !rn[h.id];}).length;
+  document.getElementById('s-coll').textContent=hs.filter(function(h){return rn[h.id];}).length;
+  // Update vacant badge
+  if(typeof ALL_ROOMS!=='undefined'){
+    var occupiedRooms2={};
+    hs.filter(function(h){return h.status!=='left';}).forEach(function(h){occupiedRooms2[h.room.toUpperCase()]=true;});
+    var vCount=Object.keys(ALL_ROOMS).reduce(function(s,ho){return s+ALL_ROOMS[ho].filter(function(r){return !occupiedRooms2[r.toUpperCase()];}).length;},0);
+    var vb=document.getElementById('vacant-badge');
+    if(vb) vb.textContent=vCount;
+  }
+  document.getElementById('s-comp').textContent=cs.filter(function(c){return c.status!=='resolved';}).length;
+  // recent hostellers
+  var rh=document.getElementById('dash-hostellers');
+  if(!hs.length){rh.innerHTML='<div class="empty"><div class="empty-icon">👤</div><div>No hostellers yet</div></div>';return;}
+  var recent=hs.slice().sort(function(a,b){return new Date(b.created)-new Date(a.created);}).slice(0,5);
+  var rows='<table><thead><tr><th>Name</th><th>Room</th><th>Date</th></tr></thead><tbody>';
+  recent.forEach(function(h){rows+='<tr><td><span class="av '+avc(h.name)+'">'+ini(h.name)+'</span>'+h.name+'</td><td>'+niceRoom(h.room)+'</td><td>'+fmtD(h.date)+'</td></tr>';});
+  rh.innerHTML=rows+'</tbody></table>';
+  // recent complaints
+  var rc=document.getElementById('dash-complaints');
+  if(!cs.length){rc.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div>No complaints yet</div></div>';return;}
+  var recC=cs.slice().sort(function(a,b){return new Date(b.created)-new Date(a.created);}).slice(0,5);
+  var crow='<table><thead><tr><th>Issue</th><th>Room</th><th>Status</th></tr></thead><tbody>';
+  recC.forEach(function(c){crow+='<tr><td>'+c.title+'</td><td>'+niceRoom(c.room)+'</td><td>'+sBadge(c.status)+'</td></tr>';});
+  rc.innerHTML=crow+'</tbody></table>';
+}
+
+// ===== HOSTELLERS =====
+var hSearchVal='', hFilterVal='all';
+function setHF(v){
+  hFilterVal=v;
+  ['all','H1','H2','H3','H4','left'].forEach(function(f){
+    var b=document.getElementById('hf-'+f);
+    if(b) b.className='btn '+(hFilterVal===f?'bp':'bg2')+' bsm';
+  });
+  renderHostellers();
+}
+function hSearch(v){hSearchVal=v;renderHostellers();}
+function renderHostellers(){
+  var hs=getH(), st=getS();
+  var filtered=hs.filter(function(h){
+    var matchSearch=h.name.toLowerCase().indexOf(hSearchVal.toLowerCase())>-1||h.room.toLowerCase().indexOf(hSearchVal.toLowerCase())>-1;
+    var matchFilter=hFilterVal==='all'||(hFilterVal==='left'?h.status==='left':h.hostel===hFilterVal&&h.status!=='left');
+    return matchSearch&&matchFilter;
+  });
+  document.getElementById('h-count').textContent=(HNAMES[hFilterVal]?'House '+HNAMES[hFilterVal]:'All')+' Residents ('+filtered.length+')';
+  var tb=document.getElementById('h-tbody');
+  if(!filtered.length){
+    tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--mut)">No hostellers found</td></tr>';
+    return;
+  }
+  var rows='';
+  filtered.forEach(function(h){
+    rows+='<tr>';
+    rows+='<td><div style="display:flex;align-items:center"><span class="av '+avc(h.name)+'">'+ini(h.name)+'</span><div><div style="font-weight:600">'+h.name+'</div><div style="font-size:11px;color:var(--acc2)">'+h.phone+'</div></div></div></td>';
+    rows+='<td>'+hBadge(h.hostel)+'</td>';
+    rows+='<td><strong>'+niceRoom(h.room)+'</strong></td>';
+    rows+='<td style="font-size:11px;color:var(--mut)">'+( getFloorName(h.room)||h.floor)+'</td>';
+    rows+='<td>'+fmtD(h.date)+'</td>';
+    rows+='<td>'+fmtM(h.rent||st.rent||4000)+'</td>';
+    rows+='<td><div style="font-size:12px">'+fmtM(h.caution||0)+'</div><div style="font-size:10px;color:var(--mut)">'+(h.paymode==='online'?'Online':'Cash')+'</div></td>';
+    rows+='<td><span class="badge '+(h.status==='left'?'br':'bg')+'">'+(h.status==='left'?'Left':'Active')+'</span>'+(h.leftDate?'<div style="font-size:10px;color:var(--dan)">'+fmtD(h.leftDate)+'</div>':'')+'</td>';
+    rows+='<td><button class="btn bg2 bsm" onclick="viewH(\''+h.id+'\')">View</button></td>';
+    rows+='</tr>';
+  });
+  tb.innerHTML=rows;
+}
+function enrollHosteller(){
+  var name=document.getElementById('h-name').value.trim();
+  var room=document.getElementById('h-room').value.trim();
+  var phone=document.getElementById('h-phone').value.trim();
+  var date=document.getElementById('h-date').value;
+  var rent=document.getElementById('h-rent').value||getS().rent||4000;
+  if(!name||!room||!phone||!date){toast('Fill all required fields','error');return;}
+  var hs=getH();
+  hs.unshift({id:uid(),name:name,room:room,phone:phone,date:date,rent:rent,hostel:document.getElementById('h-hostel').value,floor:document.getElementById('h-floor').value,rtype:document.getElementById('h-rtype').value,emrg:document.getElementById('h-emrg').value,addr:document.getElementById('h-addr').value,idtype:document.getElementById('h-idtype').value,idnum:document.getElementById('h-idnum').value,created:new Date().toISOString()});
+  saveH(hs);
+  closeModal('m-enroll');
+  ['h-name','h-room','h-phone','h-emrg','h-idnum','h-addr','h-rent'].forEach(function(id){document.getElementById(id).value='';});
+  toast(name+' enrolled in room '+room);
+  renderHostellers();
+}
+var currentViewId="";
+function viewH(id){
+  currentViewId=id;
+  var h=getH().find(function(x){return x.id===id;});
+  if(!h)return;
+  document.getElementById('view-title').textContent=h.name;
+  var rows=[
+    ['Hostel',hBadge(h.hostel)],['Room',niceRoom(h.room)],['Floor',getFloorName(h.room)||h.floor],['Type',h.rtype],
+    ['Phone',h.phone],['Emergency',h.emrg||'-'],['Move-in',fmtD(h.date)],['Rent',fmtM(h.rent)],
+    ['ID Type',h.idtype],['ID No.',h.idnum||'-'],['Hometown',h.addr||'-']
+  ];
+  var html='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">';
+  rows.forEach(function(r){
+    html+='<div style="background:var(--sur2);border-radius:7px;padding:9px"><div style="font-size:10px;color:var(--mut);margin-bottom:2px">'+r[0]+'</div><div style="font-weight:600;font-size:13px">'+r[1]+'</div></div>';
+  });
+  html+='</div>';
+  // Add status row
+  html+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">';
+  html+='<span class="badge '+(h.status==='left'?'br':'bg')+' " style="font-size:12px;padding:5px 12px">'+(h.status==='left'?'Left Hostel':'Active')+'</span>';
+  if(h.leftDate) html+='<span style="font-size:12px;color:var(--dan)">Left on: '+fmtD(h.leftDate)+'</span>';
+  html+='</div>';
+  // Caution + room info
+  html+='<div style="background:var(--sur2);border-radius:9px;padding:12px;margin-bottom:12px">';
+  html+='<div style="font-size:11px;color:var(--acc);font-weight:700;margin-bottom:8px">ROOM & CAUTION</div>';
+  html+='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">';
+  html+='<span style="font-size:13px;color:var(--mut)">Room:</span>';
+  html+='<strong style="font-size:14px">'+niceRoom(h.room)+'</strong>';
+  html+='<button class="btn bb2 bsm" onclick="openRoomChange(currentViewId)">Change Room</button>';
+  html+='</div>';
+  html+='<div style="font-size:13px;color:var(--mut)">Caution: <strong>'+fmtM(h.caution||0)+'</strong> · '+(h.paymode==='online'?'Online':'Cash')+'</div>';
+  html+='</div>';
+  // Add rent payment history
+  var rh2 = getRentHistoryForHosteller(h.id);
+  var months2 = Object.keys(rh2).sort().reverse();
+  html += '<div style="margin-top:4px"><div style="font-size:11px;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Fee Payment History</div>';
+  if(!months2.length){
+    html += '<div style="font-size:12px;color:var(--mut);padding:8px;background:var(--sur2);border-radius:7px">No payment records yet</div>';
+  } else {
+    html += '<div style="display:flex;flex-direction:column;gap:5px">';
+    months2.forEach(function(m){
+      var pd = rh2[m];
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:var(--sur2);border-radius:7px;border-left:3px solid '+(pd.paid?'var(--suc)':'var(--dan)') +'">';
+      html += '<span style="font-weight:600;font-size:13px">'+m+'</span>';
+      html += '<div style="display:flex;gap:6px;align-items:center">';
+      html += '<span class="badge '+(pd.mode==='online'?'bb':'by')+'">'+(pd.mode==='online'?'Online':'Cash')+'</span>';
+      html += '<span class="badge bg">Paid</span>';
+      if(pd.date) html += '<span style="font-size:10px;color:var(--mut)">'+fmtD(pd.date)+'</span>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+  document.getElementById('view-body').innerHTML=html;
+  document.getElementById('view-del').onclick=function(){removeH(id);};
+  // Add mark left button
+  var delBtn = document.getElementById('view-del');
+  var ma = delBtn.parentElement;
+  // Remove old mark left btn if exists
+  var oldBtn = document.getElementById('view-left-btn');
+  if(oldBtn) oldBtn.remove();
+  var leftBtn = document.createElement('button');
+  leftBtn.id = 'view-left-btn';
+  leftBtn.className = h.status==='left' ? 'btn bs bsm' : 'btn bd bsm';
+  leftBtn.textContent = h.status==='left' ? 'Mark Active' : 'Mark Left';
+  leftBtn.onclick = function(){ toggleLeft(currentViewId); };
+  ma.insertBefore(leftBtn, delBtn);
+  openModal('m-view');
+}
+function toggleLeft(id){
+  var hs=getH();
+  var idx=hs.findIndex(function(x){return x.id===id;});
+  if(idx===-1) return;
+  if(hs[idx].status==='left'){
+    hs[idx].status='active';
+    delete hs[idx].leftDate;
+    toast(hs[idx].name+' marked as Active');
+  } else {
+    hs[idx].status='left';
+    hs[idx].leftDate=new Date().toISOString();
+    toast(hs[idx].name+' marked as Left Hostel','error');
+  }
+  saveH(hs);
+  closeModal('m-view');
+  renderHostellers();
+}
+
+function openRoomChange(id){
+  var h=getH().find(function(x){return x.id===id;});
+  if(!h) return;
+  var newRoom=prompt('Assign new room number for '+h.name+':\nCurrent room: '+niceRoom(h.room)+'\n\nEnter new room:');
+  if(!newRoom||!newRoom.trim()) return;
+  newRoom=newRoom.trim().toUpperCase();
+  // Check if room is occupied
+  var hs=getH();
+  var occupied=hs.find(function(x){return x.room.toUpperCase().trim()===newRoom.toUpperCase().trim() && x.id!==id && x.status!=='left';});
+  if(occupied){
+    toast('Room '+niceRoom(newRoom)+' is occupied by '+occupied.name,'error');
+    return;
+  }
+  var idx=hs.findIndex(function(x){return x.id===id;});
+  hs[idx].room=newRoom;
+  saveH(hs);
+  toast(h.name+' moved to room '+niceRoom(newRoom));
+  closeModal('m-view');
+  renderHostellers();
+}
+
+function removeH(id){
+  if(!confirm('Remove this hosteller?'))return;
+  saveH(getH().filter(function(h){return h.id!==id;}));
+  var rn=getR(); delete rn[id]; saveR(rn);
+  closeModal('m-view');
+  toast('Hosteller removed','error');
+  renderHostellers();
+}
+
+// ===== RENT =====
+function makeBankSelect(hid, rentBank){
+  var cur=rentBank[hid]||'';
+  var opts=['','Account 1','Account 2','Account 3','Account 4'];
+  var labels=['-','Acc 1','Acc 2','Acc 3','Acc 4'];
+  var s='<select id="rb_'+hid+'" onchange="saveRentBankEl(this)" style="font-size:11px;padding:4px 6px;background:var(--sur2);border:1px solid var(--bor);border-radius:6px;color:var(--txt)">';
+  opts.forEach(function(v,i){s+='<option value="'+v+'"'+(cur===v?' selected':'')+'>'+labels[i]+'</option>';});
+  s+='</select>';
+  return s;
+}
+
+// ===== RENT TRACKER - SIMPLE MONTH-WISE =====
+var selRentMonth = ''; // format: "Mar-2026"
+
+function getMonthKey(date){
+  return (date||new Date()).toLocaleDateString('en-IN',{month:'short',year:'numeric'}).replace(' ','-');
+}
+
+function getRH(){ return load('hh_rent_history')||{}; }
+function saveRH(d){ save('hh_rent_history',d); }
+
+function renderRent(){
+  if(!getH().length) seedDemo();
+  // Set default month to current
+  if(!selRentMonth) selRentMonth = getMonthKey(new Date());
+
+  var hs = getH().filter(function(h){ return h.status!=='left'; });
+  var rh = getRH();
+  var st = getS();
+
+  // Populate month dropdown
+  var sel = document.getElementById('rent-month-sel');
+  if(sel && !sel.innerHTML){
+    var months = [];
+    var d = new Date('2025-08-01');
+    var end = new Date('2030-12-01');
+    while(d <= end){
+      months.push(new Date(d));
+      d.setMonth(d.getMonth()+1);
+    }
+    months.reverse();
+    sel.innerHTML = months.map(function(m){
+      var key = getMonthKey(m);
+      var label = m.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+      return '<option value="'+key+'"'+(key===selRentMonth?' selected':'')+'>'+label+'</option>';
+    }).join('');
+  } else if(sel) {
+    sel.value = selRentMonth;
+  }
+
+  // Update top display
+  var dispEl = document.getElementById('rent-month-display');
+  if(dispEl){
+    var now2 = new Date();
+    var parts = selRentMonth.split('-');
+    var mNames = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+    var selDate = new Date(parseInt(parts[1]), mNames[parts[0]], 1);
+    dispEl.textContent = selDate.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+  }
+
+  // Stats
+  var total=0, collected=0, paidCt=0, pendCt=0;
+  hs.forEach(function(h){
+    var r = Number(h.rent||st.rent||6000);
+    total += r;
+    var pd = (rh[h.id]||{})[selRentMonth];
+    if(pd && pd.paid){ collected+=r; paidCt++; }
+    else pendCt++;
+  });
+  var pct = total>0 ? Math.round(collected/total*100) : 0;
+
+  document.getElementById('r-amt').textContent = fmtM(collected);
+  document.getElementById('r-total').textContent = fmtM(total)+' total';
+  document.getElementById('r-pct').textContent = pct+'% collected';
+  document.getElementById('r-bar').style.width = pct+'%';
+  document.getElementById('r-paid').textContent = paidCt;
+  document.getElementById('r-pend').textContent = pendCt;
+  document.getElementById('r-due').textContent = fmtM(total-collected);
+  document.getElementById('r-ddate').textContent = (st.due||'10')+'th';
+
+  // Table
+  var tb = document.getElementById('r-tbody');
+  if(!hs.length){
+    tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--mut)">No hostellers. Go to Admin → Reload Demo Data</td></tr>';
+    return;
+  }
+  var rows = '';
+  hs.forEach(function(h){
+    var pd = (rh[h.id]||{})[selRentMonth]||{};
+    var paid = !!pd.paid;
+    var r = h.rent||st.rent||6000;
+    var hid = h.id;
+    rows += '<tr>';
+    rows += '<td><div class="ck '+(paid?'on':'')+'" id="rck_'+hid+'" onclick="_tickRent(this)">'+(paid?'✓':'')+'</div></td>';
+    rows += '<td><div style="display:flex;align-items:center"><span class="av '+avc(h.name)+'">'+ini(h.name)+'</span>';
+    rows += '<div><div>'+h.name+'</div><div style="font-size:11px;color:var(--acc2)">'+h.phone+'</div></div></div></td>';
+    rows += '<td>'+hBadge(h.hostel)+'</td>';
+    rows += '<td>'+niceRoom(h.room)+'</td>';
+    rows += '<td>'+fmtM(r)+'</td>';
+    rows += '<td>'+(paid?'<span class="badge bb">'+(pd.mode==='online'?'Online':'Cash')+'</span>':'-')+'</td>';
+    rows += '<td>'+(paid?'<span class="badge bg">Paid</span><div style="font-size:10px;color:var(--mut)">'+fmtD(pd.date)+'</div>':'<span class="badge br">Pending</span>')+'</td>';
+    rows += '</tr>';
+  });
+  tb.innerHTML = rows;
+}
+
+function _tickRent(el){
+  var id = el.id.replace('rck_','');
+  tickRent(id);
+}
+function tickRent(hid){
+  var rh = getRH();
+  if(!rh[hid]) rh[hid] = {};
+  if(rh[hid][selRentMonth] && rh[hid][selRentMonth].paid){
+    delete rh[hid][selRentMonth];
+    toast('Rent unmarked','error');
+  } else {
+    var mode = confirm('Paid via Online Transfer?\nOK = Online | Cancel = Cash') ? 'online' : 'cash';
+    rh[hid][selRentMonth] = {paid:true, date:new Date().toISOString(), mode:mode};
+    toast('Rent marked paid for '+selRentMonth);
+  }
+  saveRH(rh);
+  renderRent();
+}
+
+function changeRentMonth(){
+  var sel = document.getElementById('rent-month-sel');
+  if(sel) selRentMonth = sel.value;
+  renderRent();
+}
+
+function markAllPaid(){
+  if(!confirm('Mark ALL as paid for '+selRentMonth+'?')) return;
+  var rh = getRH();
+  getH().filter(function(h){return h.status!=='left';}).forEach(function(h){
+    if(!rh[h.id]) rh[h.id]={};
+    rh[h.id][selRentMonth]={paid:true,date:new Date().toISOString(),mode:'cash'};
+  });
+  saveRH(rh);
+  toast('All marked paid for '+selRentMonth);
+  renderRent();
+}
+
+function resetMonthRent(){
+  if(!confirm('Reset all rent for '+selRentMonth+'?')) return;
+  var rh = getRH();
+  getH().forEach(function(h){ if(rh[h.id]) delete rh[h.id][selRentMonth]; });
+  saveRH(rh);
+  toast('Reset done','error');
+  renderRent();
+}
+
+function getRentHistoryForHosteller(hid){ return getRH()[hid]||{}; }
+
+
+function toggleRent(id){
+  var rn=getR();
+  if(rn[id]) delete rn[id]; else rn[id]=true;
+  saveR(rn);
+  renderRent();
+  var h=getH().find(function(x){return x.id===id;});
+  if(h) toast(rn[id]?h.name+' rent marked paid':h.name+' rent unmarked',rn[id]?'success':'error');
+}
+function markAllPaid(){
+  var rn=getR(); getH().forEach(function(h){rn[h.id]=true;}); saveR(rn); renderRent(); toast('All marked paid');
+}
+function resetRent(){
+  if(!confirm('Reset rent for this month?'))return;
+  saveR({}); renderRent(); toast('Rent reset','error');
+}
+
+// ===== COMPLAINTS =====
+var cFilter='all';
+function filterC(f){
+  cFilter=f;
+  ['all','open','inprogress','resolved'].forEach(function(x){
+    var b=document.getElementById('cf-'+x);
+    if(b) b.className='btn '+(cFilter===x?'bp':'bg2')+' bsm';
+  });
+  renderComplaints(f);
+}
+function renderComplaints(f){
+  var cs=getC();
+  var filtered=f==='all'?cs:cs.filter(function(c){return c.status===f;});
+  var grid=document.getElementById('c-grid');
+  var empty=document.getElementById('c-empty');
+  if(!filtered.length){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  var html='';
+  filtered.forEach(function(c){
+    html+='<div class="cc">';
+    html+='<div style="display:flex;justify-content:space-between;margin-bottom:8px">';
+    html+='<div><div style="font-size:10px;color:var(--mut);text-transform:uppercase">'+c.category+' · '+hBadge(c.hostel)+' Room '+c.room+'</div>';
+    html+='<div style="font-family:var(--fh);font-weight:700;font-size:14px;margin:3px 0">'+c.title+'</div></div>';
+    html+=sBadge(c.status)+'</div>';
+    html+='<div style="font-size:12px;color:var(--mut);line-height:1.5;margin-bottom:10px">'+(c.desc||'No description.')+'</div>';
+    if(c.note) html+='<div style="background:var(--sur2);border-radius:7px;padding:9px;font-size:12px;margin-bottom:10px;color:var(--mut)">Action: '+c.note+'</div>';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center">';
+    html+='<div style="font-size:11px;color:var(--mut)">'+c.hosteller+' · '+fmtD(c.created)+' · '+sBadge(c.priority)+'</div>';
+    html+='<div style="display:flex;gap:5px"><button class="btn bb2 bsm" onclick="openAction(\''+c.id+'\')">Update</button><button class="btn bd bsm" onclick="delC(\''+c.id+'\')">Del</button></div>';
+    html+='</div></div>';
+  });
+  grid.innerHTML=html;
+}
+function addComplaint(){
+  var name=document.getElementById('c-name').value.trim();
+  var room=document.getElementById('c-room').value.trim();
+  var title=document.getElementById('c-title').value.trim();
+  if(!name||!room||!title){toast('Fill required fields','error');return;}
+  var cs=getC();
+  cs.unshift({id:uid(),hosteller:name,room:room,hostel:document.getElementById('c-hostel').value,title:title,category:document.getElementById('c-cat').value,desc:document.getElementById('c-desc').value.trim(),priority:document.getElementById('c-pri').value,status:'open',note:'',created:new Date().toISOString()});
+  saveC(cs);
+  closeModal('m-complaint');
+  ['c-name','c-room','c-title','c-desc'].forEach(function(id){document.getElementById(id).value='';});
+  toast('Complaint submitted');
+  renderComplaints(cFilter);
+  updateCBadge();
+}
+var actId='';
+function openAction(id){
+  var c=getC().find(function(x){return x.id===id;});
+  if(!c)return;
+  actId=id;
+  document.getElementById('act-title').textContent='Update: '+c.title;
+  document.getElementById('act-body').innerHTML='<div style="background:var(--sur2);border-radius:7px;padding:10px;margin-bottom:12px;font-size:12px">'+c.hosteller+' · Room '+c.room+' · '+c.category+'</div>';
+  document.getElementById('act-status').value=c.status;
+  document.getElementById('act-note').value=c.note||'';
+  openModal('m-action');
+}
+function saveAction(){
+  var cs=getC();
+  var idx=cs.findIndex(function(c){return c.id===actId;});
+  if(idx===-1)return;
+  cs[idx].status=document.getElementById('act-status').value;
+  cs[idx].note=document.getElementById('act-note').value;
+  saveC(cs);
+  closeModal('m-action');
+  toast('Complaint updated');
+  renderComplaints(cFilter);
+  updateCBadge();
+}
+function delC(id){
+  if(!confirm('Delete this complaint?'))return;
+  saveC(getC().filter(function(c){return c.id!==id;}));
+  toast('Deleted','error');
+  renderComplaints(cFilter);
+  updateCBadge();
+}
+
+// ===== VACANT ROOMS =====
+function renderVacant(){
+  if(!getH().length) seedDemo();
+  var hs = getH();
+  var el = document.getElementById('vacant-content');
+  if(!el) return;
+
+  // Build occupied room map
+  var occupied = {};
+  hs.filter(function(h){ return h.status !== 'left'; }).forEach(function(h){
+    occupied[h.room.toUpperCase()] = h.name;
+  });
+
+  var floorLabels = {'3':'3rd Floor','2':'2nd Floor','1':'1st Floor','0':'Ground Floor'};
+  var houseNames = {H1:'House No.26',H2:'House No.27',H3:'House No.17/5',H4:'House No.139/1'};
+  var hColors = {H1:'#f5a623',H2:'#4f8ef7',H3:'#22c55e',H4:'#a78bfa'};
+
+  var totalVacant = 0;
+  var totalOccupied = 0;
+  var totalRooms = 0;
+
+  var cardsHtml = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">';
+
+  ['H1','H2','H3','H4'].forEach(function(hostel){
+    var allRooms = ALL_ROOMS[hostel] || [];
+    totalRooms += allRooms.length;
+
+    var vacantCount = 0;
+    var occupiedCount = 0;
+
+    // Group by floor
+    var floors = {};
+    allRooms.forEach(function(r){
+      var num = r.replace(/^H[1-4]-/,'');
+      var fl = num[0];
+      if(!floors[fl]) floors[fl] = [];
+      floors[fl].push(r);
+      if(occupied[r.toUpperCase()]){ occupiedCount++; totalOccupied++; }
+      else { vacantCount++; totalVacant++; }
+    });
+
+    var pct = allRooms.length ? Math.round(occupiedCount/allRooms.length*100) : 0;
+    var floorKeys = Object.keys(floors).sort(function(a,b){return b-a;});
+
+    cardsHtml += '<div style="background:#13161f;border:1px solid #272b3d;border-radius:12px;overflow:hidden">';
+    // Header
+    cardsHtml += '<div style="padding:14px 16px;border-bottom:1px solid #272b3d;border-top:3px solid '+hColors[hostel]+'">';
+    cardsHtml += '<div style="display:flex;justify-content:space-between;align-items:center">';
+    cardsHtml += '<div style="font-family:Syne,sans-serif;font-weight:700;font-size:15px">'+houseNames[hostel]+'</div>';
+    cardsHtml += '<div style="display:flex;gap:6px">';
+    cardsHtml += '<span style="background:rgba(34,197,94,.15);color:#22c55e;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700">'+vacantCount+' Vacant</span>';
+    cardsHtml += '<span style="background:rgba(240,82,82,.15);color:#f05252;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700">'+occupiedCount+' Occupied</span>';
+    cardsHtml += '</div></div>';
+    // Progress bar
+    cardsHtml += '<div style="background:#1a1e2a;border-radius:999px;height:4px;margin-top:10px">';
+    cardsHtml += '<div style="width:'+pct+'%;height:100%;border-radius:999px;background:'+hColors[hostel]+'"></div></div>';
+    cardsHtml += '<div style="font-size:11px;color:#5a6079;margin-top:3px">'+pct+'% occupied · '+allRooms.length+' total</div>';
+    cardsHtml += '</div>';
+
+    // Legend
+    cardsHtml += '<div style="padding:10px 16px 6px;display:flex;gap:14px">';
+    cardsHtml += '<div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(34,197,94,.3);border:1px solid #22c55e"></div><span style="font-size:11px;color:#5a6079">Vacant</span></div>';
+    cardsHtml += '<div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(240,82,82,.3);border:1px solid #f05252"></div><span style="font-size:11px;color:#5a6079">Occupied</span></div>';
+    cardsHtml += '</div>';
+
+    // Rooms by floor
+    cardsHtml += '<div style="padding:4px 16px 14px">';
+    floorKeys.forEach(function(fl){
+      cardsHtml += '<div style="font-size:10px;font-weight:700;color:#5a6079;text-transform:uppercase;letter-spacing:.5px;margin:8px 0 5px;padding-bottom:3px;border-bottom:1px solid #272b3d">'+(floorLabels[fl]||fl+'th Floor')+'</div>';
+      cardsHtml += '<div style="display:flex;flex-wrap:wrap;gap:5px">';
+      floors[fl].forEach(function(r){
+        var num = r.replace(/^H[1-4]-/,'');
+        var isOccupied = !!occupied[r.toUpperCase()];
+        var name = occupied[r.toUpperCase()]||'';
+        var firstName = name.split(' ')[0];
+        if(isOccupied){
+          cardsHtml += '<div style="background:rgba(240,82,82,.08);border:1.5px solid #f05252;border-radius:7px;padding:5px 9px;min-width:48px;text-align:center" title="'+name+'">';
+          cardsHtml += '<div style="font-weight:700;font-size:12px;color:#f05252">'+num+'</div>';
+          cardsHtml += '<div style="font-size:9px;color:#5a6079;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:50px">'+firstName+'</div>';
+          cardsHtml += '</div>';
+        } else {
+          cardsHtml += '<div style="background:rgba(34,197,94,.08);border:1.5px solid #22c55e;border-radius:7px;padding:5px 9px;min-width:48px;text-align:center;cursor:pointer" ';
+          cardsHtml += 'onclick="quickEnroll(this)" data-room="'+r+'" data-hostel="'+hostel+'" title="Click to enroll">';
+          cardsHtml += '<div style="font-weight:700;font-size:12px;color:#22c55e">'+num+'</div>';
+          cardsHtml += '<div style="font-size:9px;color:#5a6079">Free</div>';
+          cardsHtml += '</div>';
+        }
+      });
+      cardsHtml += '</div>';
+    });
+    cardsHtml += '</div></div>';
+  });
+
+  cardsHtml += '</div>';
+
+  // Summary
+  var summary = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px">';
+  summary += '<div style="background:#13161f;border:1px solid #272b3d;border-radius:12px;padding:16px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#22c55e"></div><div style="font-size:11px;color:#5a6079;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Vacant</div><div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#22c55e">'+totalVacant+'</div></div>';
+  summary += '<div style="background:#13161f;border:1px solid #272b3d;border-radius:12px;padding:16px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#f05252"></div><div style="font-size:11px;color:#5a6079;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Occupied</div><div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#f05252">'+totalOccupied+'</div></div>';
+  summary += '<div style="background:#13161f;border:1px solid #272b3d;border-radius:12px;padding:16px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:#4f8ef7"></div><div style="font-size:11px;color:#5a6079;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px">Total Rooms</div><div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800">'+totalRooms+'</div></div>';
+  summary += '</div>';
+
+  el.innerHTML = summary + cardsHtml;
+
+  // Update badge
+  var badge = document.getElementById('vacant-badge');
+  if(badge) badge.textContent = totalVacant;
+}
+
+function quickEnroll(el){
+  var room = el.getAttribute('data-room');
+  var hostel = el.getAttribute('data-hostel');
+  quickEnrollDo(room, hostel);
+}
+function quickEnrollDo(room, hostel){
+  document.getElementById('h-room').value = room;
+  document.getElementById('h-hostel').value = hostel;
+  go('hostellers');
+  setTimeout(function(){ openModal('m-enroll'); }, 300);
+  toast('Room '+niceRoom(room)+' selected — fill details to enroll');
+}
+
+
+function setQuickRoom(el){
+  var room = el.getAttribute('data-room');
+  var hostel = el.getAttribute('data-hostel');
+  quickEnrollRoom(room, hostel);
+}
+function quickEnrollRoom(room, hostel){
+  // Pre-fill enroll modal with room and hostel
+  document.getElementById('h-room').value = room;
+  document.getElementById('h-hostel').value = hostel;
+  closeModal('m-view');
+  go('hostellers');
+  setTimeout(function(){ openModal('m-enroll'); }, 300);
+  toast('Room '+niceRoom(room)+' selected — fill remaining details');
+}
+
+// ===== CLEANING =====
+var DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+var HOSTELS=['H1','H2','H3','H4'];
+// All rooms in each hostel
+var ALL_ROOMS={
+  H1:["H1-001","H1-101","H1-102","H1-103","H1-104","H1-105","H1-106","H1-107","H1-108","H1-201","H1-202","H1-203","H1-204","H1-205","H1-206","H1-207","H1-208","H1-301","H1-302","H1-303","H1-304","H1-305","H1-306"],
+  H2:["H2-101","H2-102","H2-103","H2-104","H2-105","H2-106","H2-107","H2-108","H2-201","H2-202","H2-203","H2-204","H2-205","H2-206","H2-207","H2-208","H2-301","H2-302","H2-303","H2-304","H2-305","H2-306"],
+  H3:["H3-101","H3-102","H3-103","H3-104","H3-105","H3-106","H3-107","H3-108","H3-109","H3-110","H3-111","H3-112","H3-113","H3-114"],
+  H4:["H4-001","H4-002","H4-003","H4-004","H4-005","H4-006","H4-101","H4-102","H4-103","H4-104","H4-105","H4-106","H4-107","H4-108","H4-109","H4-110","H4-201","H4-202","H4-203","H4-204","H4-205","H4-206","H4-207","H4-208","H4-209","H4-210","H4-301","H4-302","H4-303","H4-304","H4-305","H4-306"]
+};
+var ROOMS={"H1":{"0":["H1-001","H1-101","H1-102","H1-103"],"1":["H1-104","H1-105","H1-106","H1-107"],"2":["H1-108","H1-201","H1-202","H1-203"],"3":["H1-204","H1-205","H1-206","H1-207"],"4":["H1-208","H1-301","H1-302","H1-303"],"5":["H1-304","H1-305","H1-306"],"6":[]},"H2":{"0":["H2-101","H2-102","H2-103","H2-104"],"1":["H2-105","H2-106","H2-107","H2-108"],"2":["H2-201","H2-202","H2-203","H2-204"],"3":["H2-205","H2-206","H2-207","H2-208"],"4":["H2-301","H2-302","H2-303","H2-304"],"5":["H2-305","H2-306"],"6":[]},"H3":{"0":["H3-101","H3-102","H3-103"],"1":["H3-104","H3-105","H3-106"],"2":["H3-107","H3-108","H3-109"],"3":["H3-110","H3-111","H3-112"],"4":["H3-113","H3-114"],"5":[],"6":[]},"H4":{"0":["H4-001","H4-002","H4-003","H4-004","H4-005","H4-006"],"1":["H4-101","H4-102","H4-103","H4-104","H4-105","H4-106"],"2":["H4-107","H4-108","H4-109","H4-110","H4-201","H4-202"],"3":["H4-203","H4-204","H4-205","H4-206","H4-207","H4-208"],"4":["H4-209","H4-210","H4-301","H4-302","H4-303","H4-304"],"5":["H4-305","H4-306"],"6":[]}};
+var selDay=0;
+var fbCurrentRoom='', fbCurrentHostel='', fbCurrentDay=0, fbSelectedReaction='';
+
+function wk(){var now=new Date();var j=new Date(now.getFullYear(),0,1);var w=Math.ceil(((now-j)/86400000+j.getDay()+1)/7);return now.getFullYear()+'-W'+w;}
+
+function selDay2(d){
+  selDay=d;
+  for(var i=0;i<7;i++){
+    var t=document.getElementById('dt-'+i);
+    if(t) t.className='tab'+(i===d?' active':'');
+  }
+  renderCleanGrid();
+}
+
+function renderCleaning(){
+  var now=new Date();
+  var todayIdx=(now.getDay()+6)%7;
+  document.getElementById('clean-today').textContent='Today: '+DAYS[todayIdx]+', '+now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  selDay=todayIdx;
+  for(var i=0;i<7;i++){
+    var t=document.getElementById('dt-'+i);
+    if(t) t.className='tab'+(i===selDay?' active':'');
+  }
+  var banner=document.getElementById('sun-banner');
+  if(todayIdx===6){banner.style.display='flex';renderCorrChecks();}
+  else{banner.style.display='none';}
+  renderCleanGrid();
+}
+
+function renderCorrChecks(){
+  var cl=getCL(), w=wk();
+  var html='';
+  HOSTELS.forEach(function(h){
+    var key=w+'_corr_'+h;
+    var done=!!cl[key];
+    html+='<div style="display:flex;flex-direction:column;align-items:center;gap:3px">';
+    html+='<div class="ck '+(done?'on':'')+'" onclick="toggleCorr(\''+h+'\')">'+(done?'✓':'')+'</div>';
+    html+='<div style="font-size:10px;font-weight:600;color:'+(done?'var(--suc)':'var(--mut)')+'">'+h+'</div>';
+    html+='</div>';
+  });
+  document.getElementById('corr-checks').innerHTML=html;
+}
+
+function toggleCorr(hostel){
+  var cl=getCL(), key=wk()+'_corr_'+hostel;
+  if(cl[key]) delete cl[key]; else cl[key]=true;
+  saveCL(cl);
+  renderCorrChecks();
+  renderCleanGrid();
+  toast(cl[wk()+'_corr_'+hostel]?hostel+' corridor marked clean':hostel+' corridor unmarked');
+}
+
+function renderCleanGrid(){
+  var cl=getCL(), w=wk(), isSun=(selDay===6);
+  var hColors={H1:'var(--acc)',H2:'var(--acc2)',H3:'var(--suc)',H4:'var(--pur)'};
+  var html='';
+
+  if(isSun){
+    HOSTELS.forEach(function(h){
+      var key=w+'_corr_'+h;
+      var done=!!cl[key];
+      html+='<div class="card">';
+      html+='<div class="ch" style="border-bottom-color:'+hColors[h]+'40"><div class="ct">'+hBadge(h)+' Corridor Cleaning</div><span class="badge '+(done?'bg':'br')+'">'+(done?'Done':'Pending')+'</span></div>';
+      html+='<div style="padding:22px;text-align:center">';
+      html+='<div style="font-size:42px;margin-bottom:10px">🏢</div>';
+      html+='<div style="font-family:var(--fh);font-weight:700;margin-bottom:5px">'+(HNAMES[h]||h)+' All Corridors</div>';
+      html+='<div style="font-size:12px;color:var(--mut);margin-bottom:16px">Ground, 1st, 2nd, Mezzanine</div>';
+      html+='<div class="ck '+(done?'on':'')+'" onclick="toggleCorr(\''+h+'\')" style="width:44px;height:44px;border-radius:11px;font-size:20px;margin:0 auto">'+(done?'✓':'')+'</div>';
+      html+='<div style="font-size:12px;margin-top:9px;font-weight:600;color:'+(done?'var(--suc)':'var(--mut)')+'">'+(done?'Cleaned':'Tap to mark cleaned')+'</div>';
+      html+='</div></div>';
+    });
+    document.getElementById('clean-grid').innerHTML=html;
+    renderFbIssues();
+    return;
+  }
+
+  HOSTELS.forEach(function(h){
+    var rooms=ROOMS[h][selDay]||[];
+    var doneCount=0;
+    rooms.forEach(function(r){if(cl[w+'_d'+selDay+'_'+h+'_'+r.replace(/-/g,'')])doneCount++;});
+    var fbCount=0;
+    rooms.forEach(function(r){if(cl[w+'_d'+selDay+'_fb_'+h+'_'+r.replace(/-/g,'')])fbCount++;});
+    var pct=rooms.length?Math.round(doneCount/rooms.length*100):0;
+    var allDone=doneCount===rooms.length&&rooms.length>0;
+
+    html+='<div class="card">';
+    html+='<div class="ch">';
+    html+='<div class="ct">'+hBadge(h)+' — '+DAYS[selDay]+'</div>';
+    html+='<div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;color:var(--mut)">'+doneCount+'/'+rooms.length+' done, '+fbCount+' feedback</span><span class="badge '+(allDone?'bg':doneCount>0?'bb':'bm')+'">'+(allDone?'All Done':doneCount>0?'In Progress':'Not Started')+'</span></div>';
+    html+='</div>';
+    html+='<div style="padding:7px 16px 5px"><div class="pb"><div class="pf" style="width:'+pct+'%;background:'+hColors[h]+'"></div></div><div style="font-size:11px;color:var(--mut);margin-top:3px">'+pct+'% complete</div></div>';
+
+    rooms.forEach(function(r){
+      var rkey=w+'_d'+selDay+'_'+h+'_'+r.replace(/-/g,'');
+      var done=!!cl[rkey];
+      var fbkey=w+'_d'+selDay+'_fb_'+h+'_'+r.replace(/-/g,'');
+      var fb=cl[fbkey]||null;
+      var hs2=getH();
+      var occ=hs2.find(function(x){return x.room===r;})||null;
+      var reactionIcons={happy:'😊',okay:'😐',unhappy:'😠',issue:'⚠️'};
+      var reactionLabels={happy:'Satisfied',okay:'Okay',unhappy:'Unhappy',issue:'Has Issue'};
+      var reactionCls={happy:'bg',okay:'by',unhappy:'br',issue:'br'};
+
+      html+='<div style="border-bottom:1px solid rgba(255,255,255,.03)">';
+      html+='<div style="display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:default">';
+      html+='<div class="ck '+(done?'on':'')+'" onclick="toggleRoom(\''+h+'\',\''+r+'\')">'+(done?'✓':'')+'</div>';
+      html+='<div style="flex:1"><div style="font-weight:600;font-size:13px">'+r+'</div><div style="font-size:11px;color:var(--mut)">'+(occ?occ.name+' · '+occ.floor:'Unoccupied')+'</div></div>';
+      if(done){
+        if(fb){
+          html+='<span style="font-size:18px">'+reactionIcons[fb.reaction]+'</span>';
+          html+='<span class="badge '+reactionCls[fb.reaction]+'">'+reactionLabels[fb.reaction]+'</span>';
+          html+='<button class="btn bg2 bsm" onclick="openFb(\''+h+'\',\''+r+'\','+selDay+')">Edit</button>';
+        } else {
+          html+='<span class="badge bb">Awaiting Feedback</span>';
+          html+='<button class="btn bp bsm" onclick="openFb(\''+h+'\',\''+r+'\','+selDay+')">+ Feedback</button>';
+        }
+      } else {
+        html+='<span class="badge bm">Pending</span>';
+      }
+      html+='</div>';
+
+      // Show feedback details if exists
+      if(done&&fb){
+        html+='<div style="margin:0 16px 10px;background:var(--sur2);border-radius:8px;padding:10px;border:1px solid rgba(34,197,94,.2)">';
+        html+='<div style="font-size:11px;color:var(--mut);margin-bottom:4px">'+(occ?occ.name+"'s Feedback":'Occupant Feedback')+' · '+fb.time+'</div>';
+        html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">';
+        html+='<span style="font-size:18px">'+reactionIcons[fb.reaction]+'</span>';
+        html+='<span class="badge '+reactionCls[fb.reaction]+'">'+reactionLabels[fb.reaction]+'</span>';
+        if(fb.note) html+='<span style="font-size:12px;color:var(--mut);font-style:italic">"'+fb.note+'"</span>';
+        html+='<button class="btn bd bsm" style="margin-left:auto" onclick="clearFb(\''+h+'\',\''+r+'\','+selDay+')">Clear</button>';
+        html+='</div></div>';
+      }
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+
+  document.getElementById('clean-grid').innerHTML=html;
+  renderFbIssues();
+}
+
+function toggleRoom(hostel,room){
+  var cl=getCL(), key=wk()+'_d'+selDay+'_'+hostel+'_'+room.replace(/-/g,'');
+  if(cl[key]) delete cl[key]; else cl[key]=true;
+  saveCL(cl);
+  renderCleanGrid();
+}
+
+function openFb(hostel,room,day){
+  fbCurrentHostel=hostel; fbCurrentRoom=room; fbCurrentDay=day; fbSelectedReaction='';
+  var hs=getH();
+  var occ=hs.find(function(x){return x.room===room;})||null;
+  document.getElementById('fb-title').textContent=(occ?occ.name:room)+' — Cleaning Feedback';
+  document.getElementById('fb-body').innerHTML='<div style="background:var(--sur2);border-radius:7px;padding:10px;margin-bottom:14px;font-size:12px">Room: <strong>'+room+'</strong> · '+hostel+' · '+(occ?occ.floor:'')+' · '+(occ?'Occupant: '+occ.name:'Unoccupied')+'</div>';
+  // reset reaction buttons
+  var cl=getCL(), w=wk();
+  var fbkey=w+'_d'+day+'_fb_'+hostel+'_'+room.replace(/-/g,'');
+  var existing=cl[fbkey]||null;
+  if(existing){
+    document.getElementById('fb-note').value=existing.note||'';
+    fbSelectedReaction=existing.reaction;
+    setReaction(existing.reaction);
+  } else {
+    document.getElementById('fb-note').value='';
+    ['happy','okay','unhappy','issue'].forEach(function(r){document.getElementById('fb-btn-'+r).className='btn bg2';});
+    document.getElementById('fb-save').disabled=true;
+  }
+  openModal('m-feedback');
+}
+
+function setReaction(r){
+  fbSelectedReaction=r;
+  ['happy','okay','unhappy','issue'].forEach(function(x){
+    document.getElementById('fb-btn-'+x).className='btn '+(x===r?(r==='issue'||r==='unhappy'?'bd':'bp'):'bg2');
+  });
+  document.getElementById('fb-save').disabled=false;
+}
+
+function saveFeedback(){
+  if(!fbSelectedReaction){toast('Select a reaction first','error');return;}
+  var cl=getCL(), w=wk();
+  var fbkey=w+'_d'+fbCurrentDay+'_fb_'+fbCurrentHostel+'_'+fbCurrentRoom.replace(/-/g,'');
+  var now=new Date();
+  cl[fbkey]={reaction:fbSelectedReaction,note:document.getElementById('fb-note').value.trim(),time:now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})};
+  saveCL(cl);
+  closeModal('m-feedback');
+  var labels={happy:'Satisfied',okay:'Okay',unhappy:'Unhappy',issue:'Issue reported'};
+  toast('Feedback saved: '+labels[fbSelectedReaction],(fbSelectedReaction==='unhappy'||fbSelectedReaction==='issue')?'error':'success');
+  renderCleanGrid();
+}
+
+function clearFb(hostel,room,day){
+  var cl=getCL(), w=wk();
+  var fbkey=w+'_d'+day+'_fb_'+hostel+'_'+room.replace(/-/g,'');
+  delete cl[fbkey]; saveCL(cl);
+  toast('Feedback cleared','error');
+  renderCleanGrid();
+}
+
+function renderFbIssues(){
+  var cl=getCL(), w=wk(), hs=getH();
+  var issues=[];
+  for(var d=0;d<7;d++){
+    HOSTELS.forEach(function(h){
+      var rooms=ROOMS[h][d]||[];
+      rooms.forEach(function(r){
+        var fbkey=w+'_d'+d+'_fb_'+h+'_'+r.replace(/-/g,'');
+        var fb=cl[fbkey];
+        if(fb&&(fb.reaction==='issue'||fb.reaction==='unhappy')){
+          var occ=hs.find(function(x){return x.room===r;})||null;
+          issues.push({hostel:h,room:r,day:DAYS[d],reaction:fb.reaction,note:fb.note,time:fb.time,name:occ?occ.name:'Unknown'});
+        }
+      });
+    });
+  }
+  var el=document.getElementById('fb-issues');
+  if(!issues.length){el.innerHTML='<div class="empty"><div class="empty-icon">✅</div><div>No issues or unhappy feedback this week</div></div>';return;}
+  var html='';
+  issues.forEach(function(i){
+    html+='<div style="background:var(--sur2);border-radius:9px;padding:12px 14px;border:1px solid rgba(240,82,82,.2);display:flex;align-items:flex-start;gap:10px">';
+    html+='<span style="font-size:22px">'+(i.reaction==='issue'?'⚠️':'😠')+'</span>';
+    html+='<div style="flex:1"><div style="font-weight:700;font-size:13px">'+i.room+' — '+i.name+'</div>';
+    html+='<div style="font-size:11px;color:var(--mut);margin-top:2px">'+hBadge(i.hostel)+' '+i.day+' · '+i.time+'</div>';
+    if(i.note) html+='<div style="font-size:12px;margin-top:5px;font-style:italic;color:var(--txt)">"'+i.note+'"</div>';
+    html+='</div><span class="badge '+(i.reaction==='issue'?'br':'by')+'">'+(i.reaction==='issue'?'Issue':'Unhappy')+'</span></div>';
+  });
+  el.innerHTML=html;
+}
+
+function resetClean(){
+  if(!confirm('Reset all cleaning records for this week?'))return;
+  var cl=getCL(), w=wk();
+  Object.keys(cl).forEach(function(k){if(k.indexOf(w)===0)delete cl[k];});
+  saveCL(cl); renderCleanGrid(); toast('Cleaning reset','error');
+}
+
+// ===== ADMIN =====
+function renderAdmin(){
+  var s=getS();
+  document.getElementById('s-name').value=s.name||'';
+  document.getElementById('s-owner').value=s.owner||'';
+  document.getElementById('s-phone').value=s.phone||'';
+  document.getElementById('s-addr').value=s.addr||'';
+  document.getElementById('s-due').value=s.due||'10';
+  document.getElementById('s-rent').value=s.rent||'4000';
+  var hs=getH(), cs=getC(), rn=getR();
+  var rows=[
+    ['Total Hostellers',hs.length],
+    ['Rent Collected',hs.filter(function(h){return rn[h.id];}).length+'/'+hs.length],
+    ['Total Complaints',cs.length],
+    ['Open Complaints',cs.filter(function(c){return c.status==='open';}).length],
+    ['Resolved',cs.filter(function(c){return c.status==='resolved';}).length]
+  ];
+  var HLABEL={'H1':'House No.26','H2':'House No.27','H3':'House No.17/5','H4':'House No.139/1'};
+  HOSTELS.forEach(function(h){
+    var list=hs.filter(function(x){return x.hostel===h;});
+    var paid=list.filter(function(x){return rn[x.id];}).length;
+    rows.push([(HLABEL[h]||h)+' Hostellers',list.length+' total, '+paid+' paid']);
+  });
+  var html='';
+  rows.forEach(function(r){
+    html+='<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--sur2);border-radius:7px"><span style="font-size:12px;color:var(--mut)">'+r[0]+'</span><span style="font-family:var(--fh);font-weight:700">'+r[1]+'</span></div>';
+  });
+  document.getElementById('admin-sum').innerHTML=html;
+}
+function saveSettings(){
+  var pinVal=document.getElementById('s-pin').value.trim(); var s={name:document.getElementById('s-name').value,owner:document.getElementById('s-owner').value,phone:document.getElementById('s-phone').value,addr:document.getElementById('s-addr').value,due:document.getElementById('s-due').value,rent:document.getElementById('s-rent').value,pin:pinVal||getS().pin||'1234'};
+  saveS(s);
+  if(s.owner){document.getElementById('owner-name').textContent=s.owner;document.getElementById('owner-init').textContent=ini(s.owner);}
+  toast('Settings saved');
+}
+function clearHostellers(){if(!confirm('Remove all hostellers?'))return;saveH([]);saveR({});toast('Cleared','error');renderAdmin();}
+function clearComplaints(){if(!confirm('Delete all complaints?'))return;saveC([]);updateCBadge();toast('Cleared','error');renderAdmin();}
+function clearAll(){if(!confirm('Reset EVERYTHING?'))return;[K.h,K.r,K.c].forEach(function(k){localStorage.removeItem(k);});updateCBadge();toast('Reset','error');renderAdmin();}
+function hardReset(){
+  if(!confirm('This will clear ALL old data and load fresh demo data. Continue?')) return;
+  // Clear everything
+  Object.keys(localStorage).forEach(function(k){ localStorage.removeItem(k); });
+  // Reload fresh
+  seedDemo();
+  toast('Fresh data loaded! All pages updated.');
+  renderDash();
+  updateCBadge();
+  // Refresh current page
+  go('dashboard');
+}
+function reloadDemo(){if(!confirm('Replace with demo data?'))return;seedDemo();toast('Demo data loaded');renderAdmin();updateCBadge();}
+
+// ===== DEMO DATA =====
+function seedDemo(){
+  var hs=[
+    // H1 - House No.26 (15 hostellers)
+    {id:'h001',hostel:'H1',name:'Rahul Sharma',room:'H1-001',phone:'9876543210',date:'2025-08-05',rent:'6000',floor:'Ground Floor',rtype:'Single',emrg:'9812300001',addr:'Bhopal, MP',idtype:'Aadhaar Card',idnum:'2345 6789 0001',created:'2025-08-05T09:00:00Z'},
+    {id:'h002',hostel:'H1',name:'Amit Verma',room:'H1-101',phone:'9823456002',date:'2025-08-10',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9812300002',addr:'Indore, MP',idtype:'Aadhaar Card',idnum:'2345 6789 0002',created:'2025-08-10T09:00:00Z'},
+    {id:'h003',hostel:'H1',name:'Suresh Patel',room:'H1-102',phone:'9834560003',date:'2025-08-15',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9812300003',addr:'Jabalpur, MP',idtype:'Voter ID',idnum:'MP/01/001/0003',created:'2025-08-15T09:00:00Z'},
+    {id:'h004',hostel:'H1',name:'Deepak Yadav',room:'H1-103',phone:'9845670004',date:'2025-08-20',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9812300004',addr:'Gwalior, MP',idtype:'PAN Card',idnum:'ABCDY0004F',created:'2025-08-20T09:00:00Z'},
+    {id:'h005',hostel:'H1',name:'Priya Sharma',room:'H1-104',phone:'9856780005',date:'2025-09-01',rent:'9000',floor:'1st Floor',rtype:'Single',emrg:'9812300005',addr:'Ujjain, MP',idtype:'Aadhaar Card',idnum:'2345 6789 0005',created:'2025-09-01T09:00:00Z'},
+    {id:'h006',hostel:'H1',name:'Neha Gupta',room:'H1-201',phone:'9867890006',date:'2025-09-05',rent:'6000',floor:'2nd Floor',rtype:'Single',emrg:'9812300006',addr:'Rewa, MP',idtype:'Passport',idnum:'J0006234',created:'2025-09-05T09:00:00Z'},
+    {id:'h007',hostel:'H1',name:'Anjali Tiwari',room:'H1-202',phone:'9878900007',date:'2025-09-10',rent:'6000',floor:'2nd Floor',rtype:'Single',emrg:'9812300007',addr:'Sagar, MP',idtype:'Aadhaar Card',idnum:'2345 6789 0007',created:'2025-09-10T09:00:00Z'},
+    {id:'h008',hostel:'H1',name:'Vikram Dubey',room:'H1-203',phone:'9889010008',date:'2025-09-15',rent:'6000',floor:'2nd Floor',rtype:'Single',emrg:'9812300008',addr:'Satna, MP',idtype:'Voter ID',idnum:'MP/01/001/0008',created:'2025-09-15T09:00:00Z'},
+    {id:'h009',hostel:'H1',name:'Kavita Singh',room:'H1-301',phone:'9890120009',date:'2025-10-01',rent:'9000',floor:'3rd Floor',rtype:'Single',emrg:'9812300009',addr:'Dewas, MP',idtype:'Driving License',idnum:'MP09 2018 0009',created:'2025-10-01T09:00:00Z'},
+    {id:'h010',hostel:'H1',name:'Rohit Mishra',room:'H1-302',phone:'9801230010',date:'2025-10-05',rent:'6000',floor:'3rd Floor',rtype:'Single',emrg:'9812300010',addr:'Khandwa, MP',idtype:'Aadhaar Card',idnum:'2345 6789 0010',created:'2025-10-05T09:00:00Z'},
+
+    // H2 - House No.27 (10 hostellers)
+    {id:'h016',hostel:'H2',name:'Karan Mehta',room:'H2-101',phone:'9867890016',date:'2025-08-07',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9823400016',addr:'Shivpuri, MP',idtype:'Voter ID',idnum:'MP/02/002/0016',created:'2025-08-07T09:00:00Z'},
+    {id:'h017',hostel:'H2',name:'Sonal Joshi',room:'H2-102',phone:'9878900017',date:'2025-08-12',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9823400017',addr:'Datia, MP',idtype:'Aadhaar Card',idnum:'3456 7890 0017',created:'2025-08-12T09:00:00Z'},
+    {id:'h018',hostel:'H2',name:'Gaurav Tiwari',room:'H2-201',phone:'9889010018',date:'2025-08-18',rent:'9000',floor:'2nd Floor',rtype:'Single',emrg:'9823400018',addr:'Tikamgarh, MP',idtype:'Driving License',idnum:'MP07 2019 0018',created:'2025-08-18T09:00:00Z'},
+    {id:'h019',hostel:'H2',name:'Nisha Pandey',room:'H2-202',phone:'9890120019',date:'2025-08-25',rent:'6000',floor:'2nd Floor',rtype:'Single',emrg:'9823400019',addr:'Narsinghpur, MP',idtype:'Aadhaar Card',idnum:'3456 7890 0019',created:'2025-08-25T09:00:00Z'},
+    {id:'h020',hostel:'H2',name:'Sanjay Dubey',room:'H2-301',phone:'9801230020',date:'2025-09-03',rent:'9000',floor:'3rd Floor',rtype:'Single',emrg:'9823400020',addr:'Hoshangabad, MP',idtype:'Aadhaar Card',idnum:'3456 7890 0020',created:'2025-09-03T09:00:00Z'},
+
+    // H3 - House No.17/5 (8 hostellers)
+    {id:'h031',hostel:'H3',name:'Manish Shukla',room:'H3-101',phone:'9812340031',date:'2025-08-06',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9834500031',addr:'Neemuch, MP',idtype:'Aadhaar Card',idnum:'4567 8901 0031',created:'2025-08-06T09:00:00Z'},
+    {id:'h032',hostel:'H3',name:'Ritu Singh',room:'H3-102',phone:'9823450032',date:'2025-08-11',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9834500032',addr:'Mandsaur, MP',idtype:'Voter ID',idnum:'MP/03/003/0032',created:'2025-08-11T09:00:00Z'},
+    {id:'h033',hostel:'H3',name:'Anil Rajput',room:'H3-103',phone:'9834560033',date:'2025-08-17',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9834500033',addr:'Rajgarh, MP',idtype:'Aadhaar Card',idnum:'4567 8901 0033',created:'2025-08-17T09:00:00Z'},
+    {id:'h034',hostel:'H3',name:'Divya Malviya',room:'H3-104',phone:'9845670034',date:'2025-08-22',rent:'9000',floor:'1st Floor',rtype:'Single',emrg:'9834500034',addr:'Agar Malwa, MP',idtype:'Driving License',idnum:'MP04 2017 0034',created:'2025-08-22T09:00:00Z'},
+    {id:'h035',hostel:'H3',name:'Gaurav Thakur',room:'H3-105',phone:'9856780035',date:'2025-09-02',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9834500035',addr:'Shajapur, MP',idtype:'Aadhaar Card',idnum:'4567 8901 0035',created:'2025-09-02T09:00:00Z'},
+
+    // H4 - House No.139/1 (10 hostellers)
+    {id:'h046',hostel:'H4',name:'Vinay Saxena',room:'H4-001',phone:'9867890046',date:'2025-08-08',rent:'6000',floor:'Ground Floor',rtype:'Single',emrg:'9845600046',addr:'Tikamgarh, MP',idtype:'Aadhaar Card',idnum:'5678 9012 0046',created:'2025-08-08T09:00:00Z'},
+    {id:'h047',hostel:'H4',name:'Mukesh Jain',room:'H4-002',phone:'9878900047',date:'2025-08-14',rent:'6000',floor:'Ground Floor',rtype:'Single',emrg:'9845600047',addr:'Damoh, MP',idtype:'Voter ID',idnum:'MP/04/004/0047',created:'2025-08-14T09:00:00Z'},
+    {id:'h048',hostel:'H4',name:'Lalit Verma',room:'H4-101',phone:'9889010048',date:'2025-08-19',rent:'6000',floor:'1st Floor',rtype:'Single',emrg:'9845600048',addr:'Sagar, MP',idtype:'Aadhaar Card',idnum:'5678 9012 0048',created:'2025-08-19T09:00:00Z'},
+    {id:'h049',hostel:'H4',name:'Sunita Chouhan',room:'H4-102',phone:'9890120049',date:'2025-08-26',rent:'9000',floor:'1st Floor',rtype:'Single',emrg:'9845600049',addr:'Guna, MP',idtype:'Driving License',idnum:'MP06 2016 0049',created:'2025-08-26T09:00:00Z'},
+    {id:'h050',hostel:'H4',name:'Sandeep Rao',room:'H4-201',phone:'9801230050',date:'2025-09-04',rent:'6000',floor:'2nd Floor',rtype:'Single',emrg:'9845600050',addr:'Ashoknagar, MP',idtype:'Aadhaar Card',idnum:'5678 9012 0050',created:'2025-09-04T09:00:00Z'},
+    {id:'h051',hostel:'H4',name:'Seema Kushwaha',room:'H4-202',phone:'9812340051',date:'2025-09-09',rent:'6000',floor:'2nd Floor',rtype:'Single',emrg:'9845600051',addr:'Sheopur, MP',idtype:'Voter ID',idnum:'MP/04/004/0051',created:'2025-09-09T09:00:00Z'},
+    {id:'h052',hostel:'H4',name:'Rajesh Thakur',room:'H4-301',phone:'9823450052',date:'2025-09-16',rent:'9000',floor:'3rd Floor',rtype:'Single',emrg:'9845600052',addr:'Indore, MP',idtype:'Aadhaar Card',idnum:'5678 9012 0052',created:'2025-09-16T09:00:00Z'},
+    {id:'h053',hostel:'H4',name:'Nandini Patel',room:'H4-302',phone:'9834560053',date:'2025-09-22',rent:'6000',floor:'3rd Floor',rtype:'Single',emrg:'9845600053',addr:'Bhopal, MP',idtype:'PAN Card',idnum:'GHIJK0053K',created:'2025-09-22T09:00:00Z'}
+  ];
+  var rn={h001:true,h002:true,h003:true,h004:true,h005:true,h006:true,h016:true,h017:true,h018:true,h031:true,h032:true,h033:true,h046:true,h047:true,h048:true};
+  var cs=[
+    {id:'c001',hosteller:'Neha Gupta',hostel:'H1',room:'H1-105',title:'Electricity socket not working',category:'Electricity',desc:'Power socket near study table stopped working.',priority:'urgent',status:'open',note:'',created:'2026-03-07T10:00:00Z'},
+    {id:'c002',hosteller:'Sanjay Dubey',hostel:'H2',room:'H2-105',title:'Room not cleaned for 3 days',category:'Cleaning',desc:'Cleaning staff has not visited for 3 days.',priority:'normal',status:'inprogress',note:'Cleaning staff informed, will visit tomorrow.',created:'2026-03-06T09:00:00Z'},
+    {id:'c003',hosteller:'Rohit Mishra',hostel:'H1',room:'H1-202',title:'Water leakage from ceiling',category:'Plumbing',desc:'Water drips from bathroom ceiling near the door.',priority:'urgent',status:'open',note:'',created:'2026-03-07T14:00:00Z'},
+    {id:'c004',hosteller:'Priya Sharma',hostel:'H1',room:'H1-107',title:'WiFi very slow in evening',category:'WiFi/Internet',desc:'Internet speed drops after 7pm.',priority:'normal',status:'inprogress',note:'ISP contacted, technician visit scheduled for 10 Mar.',created:'2026-03-05T18:00:00Z'},
+    {id:'c005',hosteller:'Nitin Baghel',hostel:'H2',room:'H2-107',title:'Window latch broken',category:'Other',desc:'Window latch is broken. Safety concern at night.',priority:'normal',status:'resolved',note:'Carpenter fixed the window latch on 6th March.',created:'2026-03-04T11:00:00Z'},
+    {id:'c006',hosteller:'Gaurav Thakur',hostel:'H3',room:'H3-105',title:'No hot water in morning',category:'Water Supply',desc:'Geyser not working since a week.',priority:'normal',status:'open',note:'',created:'2026-03-08T07:30:00Z'},
+    {id:'c007',hosteller:'Kavita Jain',hostel:'H4',room:'H4-201',title:'Main door lock is stiff',category:'Security',desc:'Room door lock is very stiff and key gets stuck.',priority:'urgent',status:'inprogress',note:'Locksmith called, will fix by 11 March.',created:'2026-03-08T09:00:00Z'},
+    {id:'c008',hosteller:'Pallavi Nayak',hostel:'H4',room:'H4-303',title:'Mezzanine staircase light broken',category:'Electricity',desc:'Staircase light not working. Dangerous at night.',priority:'urgent',status:'open',note:'',created:'2026-03-09T08:00:00Z'}
+  ];
+  var st={name:'Sunrise Hostel Complex',owner:'Ramesh Kumar',phone:'9876500000',addr:'42, Scheme No. 54, Vijay Nagar, Indore, MP 452010',due:'10',rent:'4000'};
+  saveH(hs); saveR(rn); saveC(cs); saveS(st);
+}
+
+
+
+
+// ===== SUPABASE =====
+var SURL='https://zbpyarqremtajhiioksv.supabase.co';
+var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpicHlhcnFyZW10YWpoaWlva3N2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjEwMzYsImV4cCI6MjA4OTA5NzAzNn0.XJObkoo-tsAiUhTWm6pBaCFPKCsd6Msy7zWH-b0zFBY';
+var sbClient=null;
+function getSB(){if(!sbClient&&window.supabase)sbClient=window.supabase.createClient(SURL,SKEY);return sbClient;}
+
+function printForm(btn){
+  var id = btn.getAttribute('data-id');
+  var r = admCache[id];
+  if(!r){ toast('Data not found. Please refresh.','error'); return; }
+
+  var s = getS();
+  var win = window.open('','_blank','width=800,height=900');
+  win.document.write(`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Admission Form - ` + r.name + `</title>
+<style>
+  body{font-family:'Segoe UI',Arial,sans-serif;padding:30px;color:#111;max-width:700px;margin:0 auto;}
+  .header{text-align:center;border-bottom:3px solid #f5a623;padding-bottom:16px;margin-bottom:20px;}
+  .hostel-name{font-size:22px;font-weight:800;color:#f5a623;}
+  .form-title{font-size:15px;color:#666;margin-top:4px;}
+  .photo-sig{display:flex;justify-content:space-between;margin-bottom:20px;gap:20px;}
+  .photo-box{text-align:center;}
+  .photo-box img{width:110px;height:130px;object-fit:cover;border:2px solid #ccc;border-radius:4px;}
+  .sig-box img{width:200px;height:80px;object-fit:contain;border:1px solid #ccc;background:#fff;padding:4px;}
+  .photo-box p, .sig-box p{font-size:11px;color:#666;margin-top:4px;text-align:center;}
+  .section{margin-bottom:16px;}
+  .section-title{font-size:13px;font-weight:700;color:#f5a623;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:10px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .field{background:#f9f9f9;border-radius:5px;padding:8px 10px;}
+  .field-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.4px;}
+  .field-val{font-size:13px;font-weight:600;margin-top:2px;}
+  .status-badge{display:inline-block;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;text-transform:uppercase;}
+  .pending{background:#fff3cd;color:#856404;}
+  .approved{background:#d1fae5;color:#065f46;}
+  .footer{margin-top:24px;border-top:1px solid #eee;padding-top:14px;display:flex;justify-content:space-between;font-size:11px;color:#888;}
+  @media print{body{padding:15px;} button{display:none;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="hostel-name">` + (s.name||'Rostel') + `</div>
+  <div class="form-title">Student Admission Form</div>
+  <div style="font-size:11px;color:#888;margin-top:4px">Submitted: ` + new Date(r.created_at).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}) + `</div>
+</div>
+
+<div class="photo-sig">
+  <div class="photo-box">
+    ` + (r.photo_url ? '<img src="'+r.photo_url+'"/>' : '<div style="width:110px;height:130px;border:2px dashed #ccc;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:11px">No Photo</div>') + `
+    <p>Student Photo</p>
+  </div>
+  <div style="flex:1">
+    <div style="font-size:22px;font-weight:800;margin-bottom:4px">` + r.name + `</div>
+    <div style="font-size:13px;color:#666;margin-bottom:6px">` + (r.studying_at||'') + `</div>
+    <span class="status-badge ` + r.status + `">` + r.status.toUpperCase() + `</span>
+  </div>
+  <div class="sig-box">
+    ` + (r.signature_url ? '<img src="'+r.signature_url+'"/>' : '<div style="width:200px;height:80px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:11px">No Signature</div>') + `
+    <p>Student Signature</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Personal Information</div>
+  <div class="grid">
+    <div class="field"><div class="field-label">Full Name</div><div class="field-val">` + (r.name||'-') + `</div></div>
+    <div class="field"><div class="field-label">Phone Number</div><div class="field-val">` + (r.phone||'-') + `</div></div>
+    <div class="field"><div class="field-label">Father's Name</div><div class="field-val">` + (r.father_name||'-') + `</div></div>
+    <div class="field"><div class="field-label">Emergency Contact</div><div class="field-val">` + (r.emergency_contact||'-') + `</div></div>
+    <div class="field" style="grid-column:span 2"><div class="field-label">Home Address</div><div class="field-val">` + (r.address||'-') + `</div></div>
+    <div class="field" style="grid-column:span 2"><div class="field-label">Coaching / College</div><div class="field-val">` + (r.studying_at||'-') + `</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Room & Stay Details</div>
+  <div class="grid">
+    <div class="field"><div class="field-label">Hostel</div><div class="field-val">` + (r.hostel_preference||'-') + `</div></div>
+    <div class="field"><div class="field-label">Room Number</div><div class="field-val">` + (r.room_number||'-') + `</div></div>
+    <div class="field"><div class="field-label">Move-in Date</div><div class="field-val">` + (r.move_in_date||'-') + `</div></div>
+    <div class="field"><div class="field-label">Months to Stay</div><div class="field-val">` + (r.months_to_stay||'-') + `</div></div>
+    <div class="field"><div class="field-label">Monthly Rent</div><div class="field-val">Rs. ` + (r.rent||'-') + `</div></div>
+    <div class="field"><div class="field-label">Caution Money</div><div class="field-val">Rs. ` + (r.caution_amount||'-') + `</div></div>
+    <div class="field"><div class="field-label">Payment Mode</div><div class="field-val">` + (r.payment_mode||'-') + `</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">ID Proof</div>
+  <div class="grid">
+    <div class="field"><div class="field-label">ID Type</div><div class="field-val">` + (r.id_type||'-') + `</div></div>
+    <div class="field"><div class="field-label">ID Number</div><div class="field-val">` + (r.id_number||'-') + `</div></div>
+  </div>
+  ` + (r.id_scan_url ? '<div style="margin-top:10px"><div class="field-label" style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px">ID Scan</div><img src="'+r.id_scan_url+'" style="max-width:100%;max-height:200px;border:1px solid #ccc;border-radius:4px"/></div>' : '') + `
+</div>
+
+<div class="footer">
+  <span>` + (s.name||'Rostel') + ` · ` + (s.addr||'') + `</span>
+  <span>Owner: ` + (s.owner||'') + ` · ` + (s.phone||'') + `</span>
+</div>
+
+<div style="text-align:center;margin-top:20px">
+  <button onclick="window.print()" style="background:#f5a623;color:#000;border:none;padding:10px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">🖨️ Print This Form</button>
+  &nbsp;
+  <button onclick="window.close()" style="background:#eee;color:#333;border:none;padding:10px 20px;border-radius:8px;font-size:13px;cursor:pointer">Close</button>
+</div>
+</body></html>`);
+  win.document.close();
+}
+
+function showAdmPhoto(elId){
+  var id = elId.replace('aphoto_','');
+  var r = admCache[id];
+  if(!r) return;
+  showPhoto(r.photo_url, r.name);
+}
+function showPhoto(src, name){
+  document.getElementById('photo-modal-img').src = src;
+  document.getElementById('photo-modal-name').textContent = name + ' — ID Photo';
+  openModal('m-photo');
+}
+
+async function loadAdmissions(){
+  var el=document.getElementById('adm-list');
+  el.innerHTML='<div class="empty"><div class="empty-icon">⏳</div><div>Loading...</div></div>';
+  try{
+    var sb=getSB();
+    if(!sb){el.innerHTML='<div class="empty"><div class="empty-icon">❌</div><div>Supabase not loaded</div></div>';return;}
+    var res=await sb.from('Admission').select('*').order('created_at',{ascending:false});
+    if(res.error) throw res.error;
+    var rows=res.data||[];
+    rows.forEach(function(r){admCache[r.id]=r;});
+    // Update badge
+    var pending=rows.filter(function(r){return r.status==='pending';}).length;
+    var badge=document.getElementById('adm-badge');
+    if(pending>0){badge.textContent=pending;badge.style.display='inline';}
+    else badge.style.display='none';
+    if(!rows.length){el.innerHTML='<div class="empty"><div class="empty-icon">📝</div><div>No admission forms submitted yet</div></div>';return;}
+    var html2='<div style="display:flex;flex-direction:column;gap:12px">';
+    rows.forEach(function(r){
+      var isPending=r.status==='pending';
+      var isApproved=r.status==='approved';
+      html2+='<div style="background:var(--sur);border:1px solid '+(isPending?'rgba(245,166,35,.3)':isApproved?'rgba(34,197,94,.3)':'var(--bor)')+';border-radius:12px;overflow:hidden">';
+      // Header
+      html2+='<div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--bor)">';
+      if(r.photo_url){ admCache[r.id]=r; html2+='<img src="'+r.photo_url+'" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:pointer;border:2px solid var(--acc)" id="aphoto_'+r.id+'" onclick="showAdmPhoto(this.id)" title="Click to view photo"/>'; }
+      else html2+='<div class="av av1" style="width:44px;height:44px;font-size:16px;flex-shrink:0">'+r.name.substring(0,2).toUpperCase()+'</div>';
+      html2+='<div style="flex:1">';
+      html2+='<div style="font-family:var(--fh);font-weight:700;font-size:15px">'+r.name+'</div>';
+      html2+='<div style="display:flex;align-items:center;gap:8px;margin-top:3px;flex-wrap:wrap">';
+      html2+='<span style="background:rgba(79,142,247,.15);color:var(--acc2);border-radius:6px;padding:3px 9px;font-size:13px;font-weight:700">📱 '+r.phone+'</span>';
+      html2+='<span style="font-size:12px;color:var(--mut)">Room: '+niceRoom(r.room_number)+' · '+(HNAMES[r.hostel_preference]||r.hostel_preference)+'</span>';
+      html2+='</div></div>';
+      html2+='<span class="badge '+(isPending?'by':isApproved?'bg':'bm')+'">'+(isPending?'Pending':isApproved?'Approved':'Rejected')+'</span>';
+      html2+='</div>';
+      // Details
+      html2+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px 16px">';
+      var cells=[
+        ["Father's Name",r.father_name||'-'],['Emergency',r.emergency_contact||'-'],
+        ['Move-in',r.move_in_date||'-'],['Leaving',r.leaving_date||'-'],
+        ['Months',r.months_to_stay||'-'],['Rent',r.rent?'Rs.'+r.rent:'-'],
+        ['ID Type',r.id_type||'-'],['ID No.',r.id_number||'-'],
+        ['Studying At',r.studying_at||'-']
+      ];
+      cells.forEach(function(c){
+        html2+='<div style="background:var(--sur2);border-radius:7px;padding:8px"><div style="font-size:10px;color:var(--mut)">'+c[0]+'</div><div style="font-size:12px;font-weight:600">'+c[1]+'</div></div>';
+      });
+      html2+='</div>';
+      // Address
+      if(r.address) html2+='<div style="padding:0 16px 10px;font-size:12px;color:var(--mut)">Address: '+r.address+'</div>';
+      // Signature
+      if(r.signature_url) html2+='<div style="padding:0 16px 12px"><div style="font-size:10px;color:var(--mut);margin-bottom:4px">SIGNATURE</div><img src="'+r.signature_url+'" style="height:50px;background:white;border-radius:6px;padding:4px"/></div>';
+      // Action buttons
+      if(isPending){
+        html2+='<div style="padding:12px 16px;border-top:1px solid var(--bor);display:flex;gap:8px">';
+        html2+='<button class="btn bs" onclick="doApprove(this)" data-id="'+r.id+'">Approve and Enroll</button>';
+        html2+='<button class="btn bd" onclick="doReject(this)" data-id="'+r.id+'">Reject</button>';
+        html2+='<button class="btn bg2" onclick="printForm(this)" data-id="'+r.id+'">🖨️ Print Form</button>';
+        html2+='</div>';
+      } else {
+        html2+='<div style="padding:10px 16px;border-top:1px solid var(--bor);display:flex;gap:8px">';
+        html2+='<button class="btn bg2" onclick="printForm(this)" data-id="'+r.id+'">🖨️ Print / Download Form</button>';
+        html2+='</div>';
+      }
+      html2+='</div>';
+    });
+    html2+='</div>';
+    el.innerHTML=html2;
+  }catch(e){
+    el.innerHTML='<div class="empty"><div class="empty-icon">❌</div><div>Error: '+e.message+'</div></div>';
+  }
+}
+
+var admCache={};
+function doApprove(btn){var id=btn.getAttribute('data-id');var r=admCache[id];if(!r){toast('Refresh page first','error');return;}approveAdm(id,r.name,r.room_number,r.phone,r.hostel_preference,r.move_in_date,r.rent||4000,r.id_type,r.id_number,r.address,r.studying_at,r.father_name,r.emergency_contact);}
+function doReject(btn){var id=btn.getAttribute('data-id');if(id)rejectAdm(id);}
+function approveAdmByIdx(idx){
+  var id=Object.keys(admCache)[idx];
+  if(!id){toast('Data not found, refresh page','error');return;}
+  var r=admCache[id];
+  approveAdm(id,r.name,r.room_number,r.phone,r.hostel_preference,r.move_in_date,r.rent||4000,r.id_type,r.id_number,r.address,r.studying_at,r.father_name,r.emergency_contact);
+}
+function rejectAdmByIdx(idx){
+  var id=Object.keys(admCache)[idx];
+  if(id) rejectAdm(id);
+}
+async function approveAdmById(id){
+  var r=admCache[id];
+  if(!r){toast('Data not found, please refresh','error');return;}
+  return approveAdm(id,r.name,r.room_number,r.phone,r.hostel_preference,r.move_in_date,r.rent||4000,r.id_type,r.id_number,r.address,r.studying_at,r.father_name,r.emergency_contact);
+}
+async function approveAdm(id,name,room,phone,hostel,date,rent,idtype,idnum,addr,study,father,emrg){
+  if(!confirm('Approve and enroll '+name+'?')) return;
+  try{
+    // Add to local hostellers
+    var hs=getH();
+    // Normalize room format to H1-xxx
+  room = room.toUpperCase()
+    .replace(/^NO\.26-/,'H1-').replace(/^NO\.27-/,'H2-')
+    .replace(/^NO\.17\/5-/,'H3-').replace(/^NO\.139\/1-/,'H4-')
+    .replace(/^26-/,'H1-').replace(/^27-/,'H2-')
+    .replace(/^17\/5-/,'H3-').replace(/^139\/1-/,'H4-');
+  var existing=hs.find(function(h){
+    return h.room.toUpperCase().trim()===room.toUpperCase().trim() && h.status!=='left';
+  });
+  if(existing){
+    var override = confirm('Room '+niceRoom(room)+' is currently occupied by '+existing.name+'.\n\nDo you want to:\n- Click OK to move '+existing.name+' out and assign this room to '+name+'\n- Click Cancel to go back and choose a different room');
+    if(!override) return;
+    // Mark existing hosteller as left
+    var exIdx = hs.findIndex(function(h){ return h.id===existing.id; });
+    if(exIdx > -1){ hs[exIdx].status='left'; hs[exIdx].leftDate=new Date().toISOString(); }
+    saveH(hs);
+    toast(existing.name+' marked as left. Room freed.');
+  }
+    var newH={
+      id:'h_'+Date.now(),name:name,room:room,phone:phone,
+      hostel:hostel,floor:getFloorName(room)||'Ground Floor',rtype:'Single',
+      date:date,rent:rent,emrg:emrg||'',addr:addr||'',
+      idtype:idtype||'',idnum:idnum||'',
+      studying:study||'',father:father||'',
+      caution:'4000',paymode:'cash',bankacct:'',
+      created:new Date().toISOString()
+    };
+    hs.unshift(newH);
+    saveH(hs);
+    // Update status in Supabase
+    var sb=getSB();
+    await sb.from('Admission').update({status:'approved'}).eq('id',id);
+    toast(name+' approved and enrolled in room '+niceRoom(room));
+    loadAdmissions();
+    updateCBadge();
+  }catch(e){toast('Error: '+e.message,'error');}
+}
+
+async function rejectAdm(id){
+  if(!confirm('Reject this admission?')) return;
+  try{
+    var sb=getSB();
+    await sb.from('Admission').update({status:'rejected'}).eq('id',id);
+    toast('Admission rejected','error');
+    loadAdmissions();
+  }catch(e){toast('Error: '+e.message,'error');}
+}
+
+
+// ===== ID SCANNER =====
+var idScanData = '';
+var camStream = null;
+function openIDScanner(){
+  idScanData='';
+  document.getElementById('id-video').style.display='none';
+  document.getElementById('id-captured').style.display='none';
+  document.getElementById('cam-controls').style.display='none';
+  document.getElementById('use-scan-btn').style.display='none';
+  openModal('m-idscanner');
+}
+function closeIDScanner(){
+  stopCamera();
+  closeModal('m-idscanner');
+}
+function stopCamera(){
+  if(camStream){camStream.getTracks().forEach(function(t){t.stop();});camStream=null;}
+}
+async function startCamera(){
+  try{
+    camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    var vid=document.getElementById('id-video');
+    vid.srcObject=camStream;
+    vid.style.display='block';
+    document.getElementById('cam-controls').style.display='block';
+    document.getElementById('id-captured').style.display='none';
+    document.getElementById('use-scan-btn').style.display='none';
+  }catch(e){alert('Camera not accessible. Please use Upload Photo instead.');}
+}
+function capturePhoto(){
+  var vid=document.getElementById('id-video');
+  var canvas=document.getElementById('id-canvas');
+  canvas.width=vid.videoWidth;
+  canvas.height=vid.videoHeight;
+  canvas.getContext('2d').drawImage(vid,0,0);
+  idScanData=canvas.toDataURL('image/jpeg',0.8);
+  var img=document.getElementById('id-captured');
+  img.src=idScanData;
+  img.style.display='block';
+  document.getElementById('use-scan-btn').style.display='inline-flex';
+  stopCamera();
+  document.getElementById('id-video').style.display='none';
+  document.getElementById('cam-controls').style.display='none';
+}
+function loadIDFile(inp){
+  if(!inp.files||!inp.files[0]) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    idScanData=e.target.result;
+    var img=document.getElementById('id-captured');
+    img.src=idScanData;
+    img.style.display='block';
+    document.getElementById('use-scan-btn').style.display='inline-flex';
+  };
+  reader.readAsDataURL(inp.files[0]);
+}
+function useScan(){
+  if(!idScanData){return;}
+  var prev=document.getElementById('id-scan-preview');
+  prev.src=idScanData;
+  prev.style.display='block';
+  document.getElementById('id-scan-status').textContent='ID scan saved';
+  document.getElementById('id-scan-status').style.color='var(--suc)';
+  closeIDScanner();
+}
+
+
+// ===== MOBILE NAV =====
+function isMobile(){ return window.innerWidth <= 768; }
+
+function setMobileNav(page){
+  document.querySelectorAll('.mobile-nav-item').forEach(function(i){ i.classList.remove('active'); });
+  var el = document.getElementById('mn-'+page);
+  if(el) el.classList.add('active');
+  // Close more menu
+  document.getElementById('mobile-more').style.display='none';
+}
+
+function toggleMobileMore(){
+  var el = document.getElementById('mobile-more');
+  el.style.display = el.style.display==='none' ? 'block' : 'none';
+}
+
+function showMobileNav(){
+  if(isMobile()){
+    document.getElementById('mobile-nav').style.display='flex';
+  }
+}
+
+// Update complaint badge on mobile nav too
+// Mobile badge update handled inside updateCBadge directly
+
+// Close more menu when clicking outside
+document.addEventListener('click', function(e){
+  var more = document.getElementById('mobile-more');
+  var moreBtn = document.getElementById('mn-more');
+  if(more && !more.contains(e.target) && moreBtn && !moreBtn.contains(e.target)){
+    more.style.display='none';
+  }
+});
+
+window.addEventListener('resize', function(){
+  if(isMobile()) document.getElementById('mobile-nav').style.display='flex';
+  else document.getElementById('mobile-nav').style.display='none';
+});
+
+// ===== LOGIN SYSTEM =====
+var currentUser = null; // 'owner' or hosteller object
+var loginTab = 'owner';
+
+function switchLoginTab(t){
+  loginTab = t;
+  document.getElementById('lt-owner').className = 'login-tab' + (t==='owner'?' active':'');
+  document.getElementById('lt-student').className = 'login-tab' + (t==='student'?' active':'');
+  document.getElementById('lf-owner').style.display = t==='owner'?'flex':'none';
+  document.getElementById('lf-student').style.display = t==='student'?'flex':'none';
+  document.getElementById('owner-err').style.display='none';
+  document.getElementById('stu-err').style.display='none';
+}
+
+function ownerLogin(){
+  seedDemo();
+  var pin = document.getElementById('owner-pin-input').value.trim();
+  var s = getS();
+  var correctPin = s.pin || '1234';
+  if(pin === correctPin){
+    currentUser = 'owner';
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('student-app').style.display = 'none';
+    document.querySelector('.app').style.display = 'flex';
+    showMobileNav();
+    document.getElementById('owner-pin-input').value = '';
+    renderDash();
+  } else {
+    document.getElementById('owner-err').style.display = 'block';
+  }
+}
+
+function studentLogin(){
+  // Make sure demo data is loaded
+  if(!getH().length) seedDemo();
+  var roomRaw = document.getElementById('stu-room-input').value.trim().replace(/\s+/g,'');
+  var phone = document.getElementById('stu-phone-input').value.trim().replace(/\s+/g,'').replace(/-/g,'');
+  var hs = getH();
+  // Try exact match first, then phone-only, then room-only for debugging
+  // Match just the room number digits (e.g. "302" matches "H1-302", "H2-302" etc)
+  var found = hs.find(function(h){
+    var hPhone = h.phone.trim().replace(/\s+/g,'').replace(/-/g,'');
+    // Extract just digits after the dash from stored room
+    var hRoomDigits = h.room.replace(/^H[1-4]-/,'').trim();
+    return hRoomDigits === roomRaw.trim() && hPhone === phone;
+  });
+  if(!found){
+    // Show which field is wrong
+    var roomExists = hs.find(function(h){ return h.room.replace(/^H[1-4]-/,'')===roomRaw.trim(); });
+    var phoneExists = hs.find(function(h){ return h.phone.trim().replace(/\s+/g,'')===phone; });
+    var errEl = document.getElementById('stu-err');
+    if(!roomExists) errEl.textContent = 'Room number not found. Try: H1-G01 or H2-101';
+    else if(!phoneExists) errEl.textContent = 'Phone number does not match for room '+room;
+    else errEl.textContent = 'Room and phone do not match each other.';
+    errEl.style.display='block';
+    return;
+  }
+  if(found){
+    currentUser = found;
+    document.getElementById('login-screen').style.display = 'none';
+    document.querySelector('.app').style.display = 'none';
+    var sa = document.getElementById('student-app');
+    sa.style.display = 'flex';
+    sa.style.flexDirection = 'column';
+    document.getElementById('stu-room-input').value = '';
+    document.getElementById('stu-phone-input').value = '';
+    loadStudentPortal(found);
+  } else {
+    document.getElementById('stu-err').style.display = 'block';
+  }
+}
+
+function logout(){
+  currentUser = null;
+  document.querySelector('.app').style.display = 'none';
+  document.getElementById('student-app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('owner-pin-input').value = '';
+}
+
+function ownerLogout(){
+  logout();
+}
+
+// ===== STUDENT PORTAL =====
+var stuCurrentPage = 'home';
+
+function stuGo(page){
+  stuCurrentPage = page;
+  document.querySelectorAll('.student-page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.student-tab').forEach(function(t){t.classList.remove('active');});
+  var pg = document.getElementById('sp-'+page);
+  if(pg) pg.classList.add('active');
+  document.querySelectorAll('.student-tab').forEach(function(t){
+    var map = {home:'Home',rent:'Rent',complaint:'Complaint',cleaning:'Cleaning',notices:'Notices'};
+    if(t.textContent === map[page]) t.classList.add('active');
+  });
+  if(page==='home') renderStuHome();
+  if(page==='rent') renderStuRent();
+  if(page==='complaint') renderStuComplaints();
+  if(page==='cleaning') renderStuCleaning();
+  if(page==='notices') renderStuNotices();
+}
+
+function loadStudentPortal(h){
+  var rn = getR();
+  var paid = !!rn[h.id];
+  // Header
+  document.getElementById('stu-header-name').textContent = h.name;
+  var roomDigits = h.room.replace(/^H[1-4]-/,'');
+  document.getElementById('stu-header-badge').innerHTML = hBadge(h.hostel) + ' <span style="font-size:11px;color:var(--mut)">Room ' + roomDigits + '</span>';
+  stuGo('home');
+}
+
+function renderStuHome(){
+  var h = currentUser;
+  if(!h||h==='owner') return;
+  var rn = getR();
+  var paid = !!rn[h.id];
+  document.getElementById('stu-avatar').textContent = ini(h.name);
+  document.getElementById('stu-home-name').textContent = h.name;
+  document.getElementById('stu-home-sub').textContent = h.room + ' · ' + h.hostel + ' · ' + h.floor;
+  document.getElementById('stu-s-room').textContent = h.room;
+  document.getElementById('stu-s-hostel').textContent = h.hostel;
+  document.getElementById('stu-s-rent').textContent = paid ? 'Paid' : 'Due';
+  document.getElementById('stu-s-rentcard').className = 'sc ' + (paid?'g':'r');
+  var details = [
+    ['Floor', h.floor], ['Room Type', h.rtype], ['Move-in Date', fmtD(h.date)],
+    ['Rent/Month', fmtM(h.rent)], ['Phone', h.phone], ['Emergency', h.emrg||'-'],
+    ['ID Type', h.idtype], ['ID Number', h.idnum||'-'], ['Hometown', h.addr||'-']
+  ];
+  var html = '';
+  details.forEach(function(d){
+    html += '<div class="info-cell"><div class="info-label">'+d[0]+'</div><div class="info-val">'+d[1]+'</div></div>';
+  });
+  document.getElementById('stu-details').innerHTML = html;
+}
+
+function renderStuRent(){
+  var h = currentUser;
+  if(!h||h==='owner') return;
+  var rn = getR(), s = getS();
+  var paid = !!rn[h.id];
+  var amt = Number(h.rent || s.rent || 4000);
+  document.getElementById('stu-rent-status').textContent = paid ? 'PAID' : 'PENDING';
+  document.getElementById('stu-rent-status').style.color = paid ? 'var(--suc)' : 'var(--dan)';
+  document.getElementById('stu-rent-amount').textContent = fmtM(amt) + ' per month';
+  document.getElementById('stu-rent-msg').innerHTML = paid
+    ? '<span class="badge bg" style="font-size:12px;padding:5px 12px">Your rent for this month is paid. Thank you!</span>'
+    : '<span class="badge br" style="font-size:12px;padding:5px 12px">Please pay your rent by the ' + (s.due||'10') + 'th of this month.</span>';
+  var now = new Date();
+  var details = [
+    ['Hostel', hBadge(h.hostel)], ['Room', niceRoom(h.room)], ['Rent Amount', fmtM(amt)],
+    ['Due Date', (s.due||'10')+'th every month'],
+    ['This Month', now.toLocaleDateString('en-IN',{month:'long',year:'numeric'})],
+    ['Status', paid ? '<span class="badge bg">Paid</span>' : '<span class="badge br">Pending</span>'],
+    ['Caution Money', fmtM(h.caution||0)],
+    ['Caution Payment', h.paymode==='online'?'Online':'Cash'],
+    ['Bank Account', h.bankacct||'-']
+  ];
+  var html = '';
+  details.forEach(function(d){
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--sur2);border-radius:8px"><span style="font-size:12px;color:var(--mut)">'+d[0]+'</span><span style="font-weight:600;font-size:13px">'+d[1]+'</span></div>';
+  });
+  document.getElementById('stu-rent-details').innerHTML = html;
+}
+
+function stuSubmitComplaint(){
+  var h = currentUser;
+  if(!h||h==='owner') return;
+  var title = document.getElementById('sc-title').value.trim();
+  if(!title){toast('Please enter a title','error'); return;}
+  var cs = getC();
+  cs.unshift({
+    id: uid(), hosteller: h.name, room: h.room, hostel: h.hostel,
+    title: title, category: document.getElementById('sc-cat').value,
+    desc: document.getElementById('sc-desc').value.trim(),
+    priority: document.getElementById('sc-pri').value,
+    status: 'open', note: '', created: new Date().toISOString()
+  });
+  saveC(cs);
+  document.getElementById('sc-title').value = '';
+  document.getElementById('sc-desc').value = '';
+  toast('Complaint submitted!');
+  updateCBadge();
+  renderStuComplaints();
+}
+
+function renderStuComplaints(){
+  var h = currentUser;
+  if(!h||h==='owner') return;
+  var cs = getC().filter(function(c){ return c.room === h.room; });
+  var el = document.getElementById('stu-complaints-list');
+  if(!cs.length){el.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div>No complaints yet</div></div>';return;}
+  var html = '';
+  cs.forEach(function(c){
+    html += '<div style="background:var(--sur2);border-radius:10px;padding:13px">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">';
+    html += '<div style="font-weight:700;font-size:13px">'+c.title+'</div>'+sBadge(c.status)+'</div>';
+    html += '<div style="font-size:11px;color:var(--mut);margin-bottom:5px">'+c.category+' · Room: '+niceRoom(c.room)+' · '+sBadge(c.priority)+' · '+fmtD(c.created)+'</div>';
+    if(c.desc) html += '<div style="font-size:12px;color:var(--mut)">'+c.desc+'</div>';
+    if(c.note) html += '<div style="margin-top:8px;font-size:12px;background:var(--sur);border-radius:6px;padding:7px;color:var(--txt)">Management reply: '+c.note+'</div>';
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function renderStuCleaning(){
+  var h = currentUser;
+  if(!h||h==='owner') return;
+  var cl = getCL(), w = wk();
+  var DAYS2 = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  var html = '';
+  // Find which days this room is scheduled
+  var scheduledDays = [];
+  for(var d=0; d<6; d++){
+    var rooms = ROOMS[h.hostel][d]||[];
+    if(rooms.indexOf(h.room) > -1) scheduledDays.push(d);
+  }
+  if(scheduledDays.length === 0){
+    html = '<div class="empty"><div class="empty-icon">🧹</div><div>Your room is not in this week\u0027s cleaning schedule</div></div>';
+  } else {
+    html += '<div style="display:flex;flex-direction:column;gap:12px">';
+    scheduledDays.forEach(function(d){
+      var rkey = w+'_d'+d+'_'+h.hostel+'_'+h.room.replace(/-/g,'');
+      var done = !!cl[rkey];
+      var fbkey = w+'_d'+d+'_fb_'+h.hostel+'_'+h.room.replace(/-/g,'');
+      var fb = cl[fbkey]||null;
+      var reactionIcons = {happy:'😊',okay:'😐',unhappy:'😠',issue:'⚠️'};
+      var reactionLabels = {happy:'Satisfied',okay:'Okay',unhappy:'Unhappy',issue:'Has Issue'};
+      html += '<div class="card" style="margin-bottom:0">';
+      html += '<div class="ch"><div class="ct">'+DAYS2[d]+'</div><span class="badge '+(done?'bg':'bm')+'">'+(done?'Cleaned':'Scheduled')+'</span></div>';
+      html += '<div style="padding:14px">';
+      if(done){
+        html += '<div style="color:var(--suc);font-weight:600;margin-bottom:10px">Your room was cleaned on '+DAYS2[d]+'</div>';
+        if(fb){
+          html += '<div style="background:var(--sur2);border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--mut);margin-bottom:5px">Your feedback:</div>';
+          html += '<span style="font-size:18px">'+reactionIcons[fb.reaction]+'</span> <strong>'+reactionLabels[fb.reaction]+'</strong>';
+          if(fb.note) html += ' — "'+fb.note+'"';
+          html += '</div>';
+        } else {
+          html += '<div style="color:var(--mut);font-size:12px">No feedback given yet for this cleaning.</div>';
+        }
+      } else {
+        var now2 = new Date();
+        var todayIdx = (now2.getDay()+6)%7;
+        if(d === todayIdx) html += '<div style="color:var(--acc);font-weight:600">Your room is scheduled to be cleaned today!</div>';
+        else if(d > todayIdx) html += '<div style="color:var(--mut);font-size:12px">Upcoming — scheduled for '+DAYS2[d]+'</div>';
+        else html += '<div style="color:var(--mut);font-size:12px">Was scheduled on '+DAYS2[d]+' — not yet marked as cleaned.</div>';
+      }
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+  // Sunday corridor note
+  html += '<div class="card" style="margin-top:14px"><div class="ch"><div class="ct">Sunday</div><span class="badge bm">Corridor Cleaning</span></div><div style="padding:14px;font-size:13px;color:var(--mut)">Every Sunday, all corridors in '+h.hostel+' are cleaned. Your room is not scheduled on Sundays.</div></div>';
+  document.getElementById('stu-clean-content').innerHTML = html;
+}
+
+function renderStuNotices(){
+  var s = getS();
+  var notices = s.notices || [
+    {id:'n1', title:'Rent Due Reminder', msg:'Please pay your monthly rent by the '+((s.due||'10')+'th')+'. Late payment may attract fine.', date:'2026-03-01', icon:'💰'},
+    {id:'n2', title:'Water Supply Timing', msg:'Water supply will be available 6AM-10AM and 6PM-10PM daily. Please store water accordingly.', date:'2026-03-03', icon:'💧'},
+    {id:'n3', title:'Visitor Policy', msg:'Visitors are allowed only between 9AM and 8PM. Please inform the warden in advance.', date:'2026-03-05', icon:'👥'},
+    {id:'n4', title:'Cleanliness Drive', msg:'Keep your rooms and common areas clean. Disciplinary action for repeated violations.', date:'2026-03-07', icon:'🧹'},
+    {id:'n5', title:'WiFi Maintenance', msg:'WiFi may be down for maintenance on Sunday 11PM-12AM. Plan accordingly.', date:'2026-03-08', icon:'📶'}
+  ];
+  if(!notices.length){
+    document.getElementById('stu-notices-list').innerHTML='<div class="empty"><div class="empty-icon">📢</div><div>No notices at this time</div></div>';
+    return;
+  }
+  var html = '';
+  notices.slice().reverse().forEach(function(n){
+    html += '<div class="notice-item">';
+    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">';
+    html += '<span style="font-size:18px">'+(n.icon||'📢')+'</span>';
+    html += '<div style="font-family:var(--fh);font-weight:700;font-size:14px">'+n.title+'</div>';
+    html += '<span style="margin-left:auto;font-size:11px;color:var(--mut)">'+fmtD(n.date)+'</span></div>';
+    html += '<div style="font-size:13px;color:var(--mut);line-height:1.5">'+n.msg+'</div>';
+    html += '</div>';
+  });
+  document.getElementById('stu-notices-list').innerHTML = html;
+}
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', function(){
+  if(!getH().length) seedDemo();
+  var s=getS();
+  if(s.owner){document.getElementById('owner-name').textContent=s.owner;document.getElementById('owner-init').textContent=ini(s.owner);}
+  updateCBadge();
+  // Hide main app, show login screen
+  document.querySelector('.app').style.display = 'none';
+  document.getElementById('student-app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+});
+</script>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">ROSTEL</div>
+    <div class="login-sub">Hostel Management System</div>
+    <div class="login-tabs">
+      <button class="login-tab active" id="lt-owner" onclick="switchLoginTab('owner')">Owner Login</button>
+      <button class="login-tab" id="lt-student" onclick="switchLoginTab('student')">Student Login</button>
+    </div>
+    <!-- Owner login -->
+    <div id="lf-owner" class="login-form">
+      <div>
+        <label style="font-size:10px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:5px">Owner PIN</label>
+        <input type="password" id="owner-pin-input" placeholder="Enter your PIN" maxlength="10" onkeydown="if(event.key==='Enter')ownerLogin()"/>
+      </div>
+      <div class="login-err" id="owner-err">Incorrect PIN. Please try again.</div>
+      <button class="login-btn" onclick="ownerLogin()">Login as Owner</button>
+      <div class="login-hint" style="text-align:center">Default PIN is <strong>1234</strong> &nbsp;·&nbsp; Change in Admin Panel</div>
+    </div>
+    <!-- Student login -->
+    <div id="lf-student" class="login-form" style="display:none">
+      <div>
+        <label style="font-size:10px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:5px">Room Number</label>
+        <input type="text" id="stu-room-input" placeholder="e.g. 101 or 302" onkeydown="if(event.key==='Enter')studentLogin()"/>
+      </div>
+      <div>
+        <label style="font-size:10px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:5px">Registered Phone Number</label>
+        <input type="tel" id="stu-phone-input" placeholder="e.g. 9876543210" onkeydown="if(event.key==='Enter')studentLogin()"/>
+      </div>
+      <div class="login-err" id="stu-err">Room number or phone number not found.</div>
+      <button class="login-btn" onclick="studentLogin()">Login as Student</button>
+      <div class="login-hint" style="text-align:center">Enter your room number (e.g. 101, 302) and phone</div>
+      <div style="text-align:center;margin-top:8px">
+        <button onclick="seedDemo();document.getElementById('stu-err').textContent='Demo data loaded! Try H1-G01 / 9876543210';document.getElementById('stu-err').style.background='rgba(34,197,94,.1)';document.getElementById('stu-err').style.borderColor='rgba(34,197,94,.3)';document.getElementById('stu-err').style.color='var(--suc)';document.getElementById('stu-err').style.display='block';" style="background:none;border:1px dashed var(--bor);color:var(--mut);border-radius:7px;padding:6px 14px;font-size:11px;cursor:pointer;font-family:var(--fb)">Load Demo Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STUDENT PORTAL ===== -->
+<div class="student-app" id="student-app">
+  <div class="student-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font-family:var(--fh);font-size:17px;font-weight:800">ROSTEL</div>
+      <div style="width:1px;height:20px;background:var(--bor)"></div>
+      <div style="font-size:13px;font-weight:600" id="stu-header-name">Student</div>
+      <div id="stu-header-badge"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="student-nav">
+        <button class="student-tab active" onclick="stuGo('home')">Home</button>
+        <button class="student-tab" onclick="stuGo('rent')">Rent</button>
+        <button class="student-tab" onclick="stuGo('complaint')">Complaint</button>
+        <button class="student-tab" onclick="stuGo('cleaning')">Cleaning</button>
+        <button class="student-tab" onclick="stuGo('notices')">Notices</button>
+      </div>
+      <button class="btn bg2 bsm" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="student-main">
+
+    <!-- HOME -->
+    <div class="student-page active" id="sp-home">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px">
+        <div class="oa" id="stu-avatar" style="width:50px;height:50px;font-size:16px;flex-shrink:0">ST</div>
+        <div>
+          <div style="font-family:var(--fh);font-size:20px;font-weight:800" id="stu-home-name">Student</div>
+          <div style="font-size:12px;color:var(--mut)" id="stu-home-sub">Room · Hostel</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px">
+        <div class="sc o"><div class="sl">My Room</div><div style="font-family:var(--fh);font-size:18px;font-weight:800" id="stu-s-room">-</div></div>
+        <div class="sc b"><div class="sl">Hostel</div><div style="font-family:var(--fh);font-size:18px;font-weight:800" id="stu-s-hostel">-</div></div>
+        <div class="sc g" id="stu-s-rentcard"><div class="sl">Rent</div><div style="font-family:var(--fh);font-size:18px;font-weight:800" id="stu-s-rent">-</div></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">My Details</div></div>
+        <div class="info-grid" style="padding:14px" id="stu-details"></div>
+      </div>
+    </div>
+
+    <!-- RENT -->
+    <div class="student-page" id="sp-rent">
+      <div class="topbar"><div><div class="pt">Rent Status</div><div class="ps">Your current month rent information</div></div></div>
+      <div class="rent-card">
+        <div style="font-size:13px;color:var(--mut)">Current Month Rent</div>
+        <div class="rent-status-big" id="stu-rent-status">-</div>
+        <div style="font-size:13px;color:var(--mut)" id="stu-rent-amount"></div>
+        <div style="margin-top:12px" id="stu-rent-msg"></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">Payment Details</div></div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:9px" id="stu-rent-details"></div>
+      </div>
+    </div>
+
+    <!-- COMPLAINT -->
+    <div class="student-page" id="sp-complaint">
+      <div class="topbar"><div><div class="pt">Complaints</div><div class="ps">Submit or view your complaints</div></div></div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="ch"><div class="ct">Submit New Complaint</div></div>
+        <div style="padding:16px">
+          <div class="fg"><label>Category</label><select id="sc-cat"><option>Cleaning</option><option>Electricity</option><option>Water Supply</option><option>WiFi/Internet</option><option>Food</option><option>Security</option><option>Plumbing</option><option>Noise</option><option>Other</option></select></div>
+          <div class="fg"><label>Priority</label><select id="sc-pri"><option value="normal">Normal</option><option value="urgent">Urgent</option><option value="low">Low</option></select></div>
+          <div class="fg"><label>Title *</label><input id="sc-title" placeholder="Short description of issue"/></div>
+          <div class="fg"><label>Details</label><textarea id="sc-desc" placeholder="Describe the problem in detail..."></textarea></div>
+          <button class="btn bp" onclick="stuSubmitComplaint()" style="width:100%;justify-content:center;margin-top:4px">Submit Complaint</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">My Complaints</div></div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:10px" id="stu-complaints-list">
+          <div class="empty"><div class="empty-icon">📋</div><div>No complaints submitted yet</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLEANING -->
+    <div class="student-page" id="sp-cleaning">
+      <div class="topbar"><div><div class="pt">Cleaning Schedule</div><div class="ps">When is your room being cleaned?</div></div></div>
+      <div id="stu-clean-content"></div>
+    </div>
+
+    <!-- NOTICES -->
+    <div class="student-page" id="sp-notices">
+      <div class="topbar"><div><div class="pt">Notices</div><div class="ps">Announcements from hostel management</div></div></div>
+      <div id="stu-notices-list"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL: ID SCANNER -->
+<div class="mo" id="m-idscanner">
+  <div class="md" style="max-width:520px">
+    <div class="mt">📷 Scan ID Proof</div>
+    <div id="scanner-body">
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="btn bp bsm" onclick="startCamera()">Use Camera</button>
+        <button class="btn bg2 bsm" onclick="document.getElementById('id-file-inp').click()">Upload Photo</button>
+        <input type="file" id="id-file-inp" accept="image/*" style="display:none" onchange="loadIDFile(this)"/>
+      </div>
+      <video id="id-video" style="display:none;width:100%;border-radius:9px;background:#000" autoplay playsinline></video>
+      <canvas id="id-canvas" style="display:none"></canvas>
+      <img id="id-captured" style="display:none;width:100%;border-radius:9px;margin-top:8px"/>
+      <div id="cam-controls" style="display:none;margin-top:8px;display:none">
+        <button class="btn bp bsm" onclick="capturePhoto()">📸 Capture</button>
+      </div>
+    </div>
+    <div class="ma">
+      <button class="btn bg2" onclick="closeIDScanner()">Cancel</button>
+      <button class="btn bp" id="use-scan-btn" onclick="useScan()" style="display:none">Use This Photo</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="mobile-nav" id="mobile-nav" style="display:none">
+  <div class="mobile-nav-item active" id="mn-dashboard" onclick="go('dashboard');setMobileNav('dashboard')">
+    <span class="icon">🏠</span>
+    <span>Home</span>
+  </div>
+  <div class="mobile-nav-item" id="mn-hostellers" onclick="go('hostellers');setMobileNav('hostellers')">
+    <span class="icon">👥</span>
+    <span>Residents</span>
+  </div>
+  <div class="mobile-nav-item" id="mn-rent" onclick="go('rent');setMobileNav('rent')">
+    <span class="icon">💰</span>
+    <span>Rent</span>
+  </div>
+  <div class="mobile-nav-item" id="mn-complaints" onclick="go('complaints');setMobileNav('complaints')">
+    <span class="icon">📋</span>
+    <span>Issues</span>
+    <span class="mobile-nav-badge" id="mn-cbadge" style="display:none">0</span>
+  </div>
+  <div class="mobile-nav-item" id="mn-more" onclick="toggleMobileMore()">
+    <span class="icon">☰</span>
+    <span>More</span>
+  </div>
+</div>
+
+<!-- MOBILE MORE MENU -->
+<div id="mobile-more" style="display:none;position:fixed;bottom:65px;left:0;right:0;background:var(--sur);border-top:1px solid var(--bor);z-index:99;padding:8px 0;">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div onclick="go('cleaning');setMobileNav('cleaning');toggleMobileMore()" style="padding:14px;text-align:center;cursor:pointer;border-right:1px solid var(--bor)">
+      <div style="font-size:22px">🧹</div><div style="font-size:11px;color:var(--mut);margin-top:3px">Cleaning</div>
+    </div>
+    <div onclick="go('vacant');setMobileNav('vacant');toggleMobileMore()" style="padding:14px;text-align:center;cursor:pointer;border-right:1px solid var(--bor)">
+      <div style="font-size:22px">🚪</div><div style="font-size:11px;color:var(--mut);margin-top:3px">Vacant</div>
+    </div>
+    <div onclick="go('admissions');setMobileNav('admissions');toggleMobileMore()" style="padding:14px;text-align:center;cursor:pointer">
+      <div style="font-size:22px">📝</div><div style="font-size:11px;color:var(--mut);margin-top:3px">Admissions</div>
+    </div>
+    <div onclick="go('admin');setMobileNav('admin');toggleMobileMore()" style="padding:14px;text-align:center;cursor:pointer;border-right:1px solid var(--bor);border-top:1px solid var(--bor)">
+      <div style="font-size:22px">⚙️</div><div style="font-size:11px;color:var(--mut);margin-top:3px">Settings</div>
+    </div>
+    <div onclick="ownerLogout();toggleMobileMore()" style="padding:14px;text-align:center;cursor:pointer;border-top:1px solid var(--bor)">
+      <div style="font-size:22px">🚪</div><div style="font-size:11px;color:var(--dan);margin-top:3px">Logout</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PHOTO MODAL -->
+<div class="mo" id="m-photo" onclick="closeModal('m-photo')">
+  <div style="background:var(--sur);border-radius:16px;padding:20px;max-width:420px;width:95vw;text-align:center">
+    <div style="font-family:var(--fh);font-weight:700;font-size:16px;margin-bottom:14px" id="photo-modal-name">Student Photo</div>
+    <img id="photo-modal-img" src="" style="width:100%;max-height:400px;object-fit:contain;border-radius:10px;border:2px solid var(--bor)"/>
+    <button class="btn bg2" onclick="closeModal('m-photo')" style="margin-top:14px;width:100%;justify-content:center">Close</button>
+  </div>
+</div>
+
+</body>
+</html>
